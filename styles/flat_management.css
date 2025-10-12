@@ -1,0 +1,280 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.phone-container {
+    width: 375px;
+    height: 812px;
+    background: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- HEADER WITH ORIGINAL CURVE --- */
+.header {
+    background: linear-gradient(135deg, #4a90e2 0%, #50e3c2 100%);
+    padding: 50px 24px 30px;
+    color: white;
+    position: relative;
+}
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: #ffffff;
+    border-radius: 30px 30px 0 0;
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+}
+.header-title {
+    font-size: 22px;
+    font-weight: 700;
+}
+.back-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.content {
+    padding: 20px 24px;
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+}
+.page-summary {
+    font-size: 16px;
+    color: #64748b;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+.flat-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 80px;
+}
+.flat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    animation: slideInUp 0.5s ease forwards;
+}
+.flat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+.flat-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.status-vacant {
+    background: #dcfce7;
+    color: #166534;
+}
+.status-occupied {
+    background: #fee2e2;
+    color: #991b1b;
+}
+.flat-rent {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 16px;
+}
+.flat-rent span {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+}
+.flat-features {
+    display: flex;
+    gap: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f1f5f9;
+}
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Floating Action Button */
+.fab-add-flat {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #4a90e2 0%, #50e3c2 100%);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(74, 144, 226, 0.4);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+.fab-add-flat:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(74, 144, 226, 0.5);
+}
+
+/* --- Modal Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 350px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+.modal-header {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+.modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+.close-btn {
+    width: 32px; height: 32px;
+    border: none; background: #f1f5f9;
+    color: #64748b; border-radius: 50%;
+    cursor: pointer; font-size: 18px;
+}
+.modal-body {
+    padding: 24px;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-label {
+    display: block; font-size: 14px;
+    font-weight: 600; color: #1e293b;
+    margin-bottom: 8px;
+}
+.form-input {
+    width: 100%; background: #f8fafc;
+    border: 2px solid #e2e8f0; border-radius: 12px;
+    padding: 12px 14px; font-size: 16px;
+    color: #374151; transition: all 0.3s ease;
+}
+.form-input:focus {
+    outline: none; border-color: #4a90e2;
+    background: white; box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+.number-stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.stepper-btn {
+    width: 44px; height: 44px;
+    background: #f1f5f9; border: 2px solid #e2e8f0;
+    border-radius: 12px; font-size: 20px;
+    font-weight: 600; color: #4a90e2; cursor: pointer;
+}
+.stepper-input {
+    text-align: center;
+    font-weight: 700;
+    -moz-appearance: textfield;
+}
+.stepper-input::-webkit-outer-spin-button,
+.stepper-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.modal-footer {
+    padding: 0 24px 24px;
+}
+.save-btn {
+    width: 100%; background: linear-gradient(135deg, #4a90e2 0%, #50e3c2 100%);
+    border: none; border-radius: 12px; padding: 14px;
+    color: white; font-size: 16px; font-weight: 700;
+    cursor: pointer; transition: all 0.3s ease;
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

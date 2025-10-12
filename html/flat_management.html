@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flat Management</title>
+    <link rel="stylesheet" href="../styles/flat_management.css">
+</head>
+<body>
+    <div class="phone-container">
+        <div class="header">
+            <div class="header-content">
+                <a href="#" class="back-btn">←</a>
+                <div class="header-title">Flat Management</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="page-summary">You are managing 3 flats in total.</div>
+            
+            <div class="flat-list-container" id="flatList">
+                <div class="flat-card">
+                    <div class="flat-card-header">
+                        <div class="flat-name">1A</div>
+                        <div class="status-badge status-occupied">Occupied</div>
+                    </div>
+                    <div class="flat-rent">৳25,000 <span>/ month</span></div>
+                    <div class="flat-features">
+                        <div class="feature-item">🛏️ 3 Beds</div>
+                        <div class="feature-item">🛁 2 Baths</div>
+                    </div>
+                </div>
+
+                <div class="flat-card">
+                    <div class="flat-card-header">
+                        <div class="flat-name">1B</div>
+                        <div class="status-badge status-vacant">Vacant</div>
+                    </div>
+                    <div class="flat-rent">৳22,500 <span>/ month</span></div>
+                    <div class="flat-features">
+                        <div class="feature-item">🛏️ 2 Beds</div>
+                        <div class="feature-item">🛁 2 Baths</div>
+                    </div>
+                </div>
+
+                <div class="flat-card">
+                    <div class="flat-card-header">
+                        <div class="flat-name">2A</div>
+                        <div class="status-badge status-occupied">Occupied</div>
+                    </div>
+                    <div class="flat-rent">৳18,000 <span>/ month</span></div>
+                    <div class="flat-features">
+                        <div class="feature-item">🛏️ 2 Beds</div>
+                        <div class="feature-item">🛁 1 Bath</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="fab-add-flat" id="addFlatBtn" title="Add New Flat">+</button>
+    </div>
+
+    <div class="modal-overlay" id="addFlatModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add New Flat</div>
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+            <form id="addFlatForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="flatName" class="form-label">Flat Name / Number</label>
+                        <input type="text" id="flatName" class="form-input" placeholder="e.g. 4C" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Number of Bedrooms</label>
+                        <div class="number-stepper">
+                            <button type="button" class="stepper-btn" data-field="bedrooms" data-step="-1">−</button>
+                            <input type="number" id="bedrooms" class="form-input stepper-input" value="2" min="1" required>
+                            <button type="button" class="stepper-btn" data-field="bedrooms" data-step="1">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Number of Bathrooms</label>
+                        <div class="number-stepper">
+                            <button type="button" class="stepper-btn" data-field="baths" data-step="-1">−</button>
+                            <input type="number" id="baths" class="form-input stepper-input" value="1" min="1" required>
+                            <button type="button" class="stepper-btn" data-field="baths" data-step="1">+</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="basicRent" class="form-label">Basic Rent (Monthly)</label>
+                        <input type="number" id="basicRent" class="form-input" placeholder="e.g., 20000" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="save-btn">Save Flat</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../script/flat_management.js"></script>
+</body>
+</html>
