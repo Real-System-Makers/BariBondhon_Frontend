@@ -9,27 +9,21 @@ document.addEventListener('DOMContentLoaded', function() {
             stat.textContent = finalValue;
         }, 500);
     });
-    // Action button interactions
-    const actionButtons = document.querySelectorAll('.action-btn');
-    actionButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const label = btn.querySelector('.action-label').textContent;
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                btn.style.transform = '';
-                alert(`Opening ${label}...`);
-            }, 150);
-        });
-    });
+
+    // The "Action button interactions" block has been REMOVED.
+    // The HTML links will now work by default.
+
     // Utility cards click handler
     const utilityCards = document.querySelectorAll('.utility-card');
     utilityCards.forEach(card => {
         card.addEventListener('click', () => {
             const utility = card.querySelector('.utility-label').textContent;
+            // You can change this to navigate to a specific page
+            // For example: if (utility === 'Electricity') window.location.href = 'electricity.html';
             alert(`Viewing ${utility} bill details...`);
         });
     });
+
     // Stat cards click for details
     const statCards = document.querySelectorAll('.stat-card');
     statCards.forEach(card => {

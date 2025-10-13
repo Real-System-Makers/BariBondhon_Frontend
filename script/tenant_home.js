@@ -20,13 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500);
     });
 
-    document.querySelectorAll('.action-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const label = this.querySelector('.action-label').textContent;
-            alert(`Opening ${label}...`);
-        });
-    });
+    // The ".action-btn" event listener block has been REMOVED.
+    // The HTML links in the "Quick Actions" section will now work by default.
 
     document.querySelectorAll('.notice-item').forEach(notice => {
         notice.addEventListener('click', function() {
