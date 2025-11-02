@@ -31,7 +31,9 @@ export default function RootLayout({
             '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
         }}
       >
-        {children}
+        <div className="w-full max-w-md mx-auto bg-white rounded-[30px] shadow-[0_25px_80px_rgba(0,0,0,0.15)] overflow-hidden relative">
+          {children}
+        </div>
       </body>
     </html>
   );

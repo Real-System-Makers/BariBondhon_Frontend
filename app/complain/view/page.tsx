@@ -10,7 +10,7 @@ const FILTER_BUTTONS = [
 const ViewIssue = () => {
   return (
     <>
-      <div className="w-[375px] h-[812px] bg-white rounded-[30px] shadow-[0_25px_80px_rgba(0,0,0,0.15)] overflow-hidden relative">
+      <div>
         <div className="bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] pt-[50px] px-6 pb-5 text-white relative">
           <div className="flex items-center gap-4 mb-5">
             <div className="w-10 h-10 border-2 border-white/30 rounded-xl bg-white/10 text-white flex items-center justify-center cursor-pointer text-lg transition-all duration-300 hover:bg-white/20">
