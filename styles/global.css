@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "./animations.css";
 
 @layer utilities {
   .scrollbar-hide {
