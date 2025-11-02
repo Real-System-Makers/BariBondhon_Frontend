@@ -1,71 +1,102 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from "next/link";
 
-// Next.js-এ 'Image' কম্পোনেন্ট ব্যবহার করা ভালো practice,
-// তবে এখানে সাধারণ 'div' এবং টেক্সট আইকন ব্যবহার করা হয়েছে আপনার HTML অনুযায়ী।
-
-const WelcomePage = () => {
+const Home = () => {
   return (
-    <div className="phone-container">
-      <header className="header">
-        <div className="app-logo">BariBondhu</div>
-        <div className="auth-buttons">
-         <Link href="/login"> <button className="auth-btn btn-login">Log In</button></Link>
-          <button className="auth-btn btn-signup">Register</button>
+    <div className="flex flex-col">
+      <header className="p-5 px-6 flex justify-between items-center bg-white flex-shrink-0 border-b border-slate-100">
+        <div className="text-xl font-extrabold bg-gradient-to-br from-indigo-500 to-purple-600 bg-clip-text text-transparent">
+          BariBondhu
+        </div>
+        <div className="flex gap-2">
+          <Link href="/login">
+            <button className="px-4 py-2 border-none rounded-xl text-sm font-semibold cursor-pointer transition-all duration-300 bg-slate-100 text-slate-600 hover:bg-slate-200">
+              Log In
+            </button>
+          </Link>
+          <Link href="/register">
+            <button className="px-4 py-2 border-none rounded-xl text-sm font-semibold cursor-pointer transition-all duration-300 bg-indigo-500 text-white hover:bg-indigo-600">
+              Register
+            </button>
+          </Link>
         </div>
       </header>
-      <main className="main-content">
-        <div className="welcome-banner">
-          <div className="welcome-title">Welcome to BariBondhu</div>
-          <div className="welcome-subtitle">Your Complete Rental Management Solution!</div>
+
+      <main className="flex-1 overflow-y-auto">
+        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white pt-10 px-6 pb-[70px] relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-10 after:bg-slate-100 after:rounded-t-[30px]">
+          <div className="text-[28px] font-extrabold mb-2 relative z-[2]">
+            Welcome to BariBondhu
+          </div>
+          <div className="text-base opacity-90 relative z-[2]">
+            Your Complete Rental Management Solution!
+          </div>
         </div>
 
-        <section className="stats-section">
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-icon">👤</div>
-              <div className="stat-value">800+</div>
-              <div className="stat-label">Owners</div>
+        <section className="bg-slate-100 px-6 pb-6 -mt-5 relative z-[5]">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white rounded-[20px] p-5 text-center shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-transform duration-300 hover:-translate-y-1 animate-[popIn_0.5s_ease-out_forwards] [animation-delay:0.1s] opacity-0">
+              <div className="text-[28px] mb-3">👤</div>
+              <div className="text-xl font-extrabold text-slate-800">800+</div>
+              <div className="text-sm text-slate-500 font-medium">Owners</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">👥</div>
-              <div className="stat-value">1M+</div>
-              <div className="stat-label">Tenants</div>
+            <div className="bg-white rounded-[20px] p-5 text-center shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-transform duration-300 hover:-translate-y-1 animate-[popIn_0.5s_ease-out_forwards] [animation-delay:0.2s] opacity-0">
+              <div className="text-[28px] mb-3">👥</div>
+              <div className="text-xl font-extrabold text-slate-800">1M+</div>
+              <div className="text-sm text-slate-500 font-medium">Tenants</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">🏙️</div>
-              <div className="stat-value">250+</div>
-              <div className="stat-label">Cities</div>
+            <div className="bg-white rounded-[20px] p-5 text-center shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-transform duration-300 hover:-translate-y-1 animate-[popIn_0.5s_ease-out_forwards] [animation-delay:0.3s] opacity-0">
+              <div className="text-[28px] mb-3">🏙️</div>
+              <div className="text-xl font-extrabold text-slate-800">250+</div>
+              <div className="text-sm text-slate-500 font-medium">Cities</div>
             </div>
-            <div className="stat-card">
-              <div className="stat-icon">🛠️</div>
-              <div className="stat-value">500+</div>
-              <div className="stat-label">Services</div>
+            <div className="bg-white rounded-[20px] p-5 text-center shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-transform duration-300 hover:-translate-y-1 animate-[popIn_0.5s_ease-out_forwards] [animation-delay:0.4s] opacity-0">
+              <div className="text-[28px] mb-3">🛠️</div>
+              <div className="text-xl font-extrabold text-slate-800">500+</div>
+              <div className="text-sm text-slate-500 font-medium">Services</div>
             </div>
-            {/* ইনলাইন স্টাইল অবজেক্ট হিসেবে লিখতে হয় */}
-            <div className="stat-card" style={{ gridColumn: '1 / -1' }}>
-              <div className="stat-icon">⭐</div>
-              <div className="stat-value">1k+</div>
-              <div className="stat-label">5-Star Reviews</div>
+            <div className="bg-white rounded-[20px] p-5 text-center shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-transform duration-300 hover:-translate-y-1 animate-[popIn_0.5s_ease-out_forwards] [animation-delay:0.5s] opacity-0 col-span-2">
+              <div className="text-[28px] mb-3">⭐</div>
+              <div className="text-xl font-extrabold text-slate-800">1k+</div>
+              <div className="text-sm text-slate-500 font-medium">
+                5-Star Reviews
+              </div>
             </div>
           </div>
         </section>
-        
-        <section className="cta-section">
-          <div className="section-title">Get Started</div>
-          {/* React/Next.js এ নেভিগেশনের জন্য <a> এর বদলে <Link> ট্যাগ ব্যবহার করা হয় */}
-          <a href="#" className="cta-card cta-owner">
-            <div className="cta-icon">🔑</div>
+
+        <section className="px-6 pb-[30px] bg-slate-100">
+          <div className="text-xl font-bold text-slate-800 text-center mb-5">
+            Get Started
+          </div>
+          <a
+            href="#"
+            className="bg-white rounded-[20px] p-5 mb-4 flex items-center gap-4 no-underline text-inherit shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500"
+          >
+            <div className="w-12 h-12 rounded-xl text-2xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+              🔑
+            </div>
             <div>
-              <div className="cta-title">Are you an Owner?</div>
-              <div className="cta-description">Manage your properties, tenants, and bills easily.</div>
+              <div className="text-base font-bold text-slate-800">
+                Are you an Owner?
+              </div>
+              <div className="text-sm text-slate-500">
+                Manage your properties, tenants, and bills easily.
+              </div>
             </div>
           </a>
-          <a href="#" className="cta-card cta-tenant">
-            <div className="cta-icon">🏠</div>
+          <a
+            href="#"
+            className="bg-white rounded-[20px] p-5 mb-4 flex items-center gap-4 no-underline text-inherit shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500"
+          >
+            <div className="w-12 h-12 rounded-xl text-2xl flex items-center justify-center flex-shrink-0 bg-slate-100 text-indigo-500">
+              🏠
+            </div>
             <div>
-              <div className="cta-title">Looking for a Home?</div>
-              <div className="cta-description">Find your perfect rental property today.</div>
+              <div className="text-base font-bold text-slate-800">
+                Looking for a Home?
+              </div>
+              <div className="text-sm text-slate-500">
+                Find your perfect rental property today.
+              </div>
             </div>
           </a>
         </section>
@@ -74,4 +105,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export default Home;

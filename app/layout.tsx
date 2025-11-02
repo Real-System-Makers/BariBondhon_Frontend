@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../styles/home.css";
-import "../styles/complain_issue.css";
+import "../styles/global.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +25,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex items-center justify-center p-5 bg-gradient-to-br from-slate-50 to-slate-200`}
+        style={{
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif',
+        }}
       >
-        {children}
+        <div className="w-full max-w-md mx-auto bg-white rounded-[30px] shadow-[0_25px_80px_rgba(0,0,0,0.15)] overflow-hidden relative">
+          {children}
+        </div>
       </body>
     </html>
   );
