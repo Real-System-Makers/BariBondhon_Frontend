@@ -3,7 +3,7 @@ import Link from "next/link";
 const MoveOutSubmission = () => {
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col h-full">
         <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 pt-[50px] px-6 pb-5 text-white flex items-center gap-4 flex-shrink-0">
           <Link
             href="/"

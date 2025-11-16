@@ -13,7 +13,7 @@ const ComplaintIssue = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 pt-12 pb-5 px-6 text-white relative">
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 border-2 border-white/30 rounded-xl bg-white/10 text-white flex items-center justify-center cursor-pointer text-lg transition-all hover:bg-white/20">

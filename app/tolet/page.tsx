@@ -1,6 +1,6 @@
 const Tolet = () => {
   return (
-    <div className="h-[812px] overflow-hidden relative">
+    <div className="flex flex-col h-full overflow-hidden relative">
       <div className="bg-gradient-to-br from-[#667eea] to-[#764ba2] pt-[50px] px-6 text-white relative">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">

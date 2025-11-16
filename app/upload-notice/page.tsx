@@ -8,7 +8,7 @@ const UploadNotice = () => {
   const [isUrgent, setIsUrgent] = useState(false);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <div className="bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] pt-[50px] px-6 pb-5 text-white flex items-center gap-4">
         <Link
           href="/"

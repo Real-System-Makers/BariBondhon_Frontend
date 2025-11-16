@@ -19,7 +19,7 @@ const TenantManagement = () => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col h-full">
         <div className="bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] pt-[50px] px-6 pb-[30px] text-white relative flex-shrink-0 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[30px] after:bg-white after:rounded-t-[30px]">
           <div className="flex items-center gap-4 relative z-[2]">
             <Link

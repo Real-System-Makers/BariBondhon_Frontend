@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-full">
       <header className="p-5 px-6 flex justify-between items-center bg-white flex-shrink-0 border-b border-slate-100">
         <div className="text-xl font-extrabold bg-gradient-to-br from-indigo-500 to-purple-600 bg-clip-text text-transparent">
           BariBondhu

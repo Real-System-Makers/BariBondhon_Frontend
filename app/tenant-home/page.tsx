@@ -8,7 +8,7 @@ const TenantHome = () => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col h-full">
         <div className="bg-gradient-to-br from-[#10b981] to-[#059669] pt-[50px] px-6 pb-[30px] text-white relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[30px] after:bg-white after:rounded-t-[30px]">
           <div className="relative z-[2]">
             <div>
