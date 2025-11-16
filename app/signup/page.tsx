@@ -1,17 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Role } from "@/lib/constants/role";
-import RoleButton from "./_components/RoleButton";
 
-const Login = () => {
-  const [role, setRole] = useState<Role>(Role.OWNER);
-
-  const handleRoleChange = (role: Role) => {
-    setRole(role);
-  };
-
+const SignUp = () => {
   return (
     <div className="p-5">
       <div className="absolute w-[200px] h-[200px] top-[-50px] left-[-50px] rounded-full opacity-50 blur-[80px] transition-all duration-400 z-0 bg-primary-start"></div>
@@ -28,11 +19,9 @@ const Login = () => {
             BB
           </div>
           <h1 className="text-[28px] font-bold text-slate-800 mb-2">
-            BariBondhon
+            Create Account
           </h1>
-          <p className="text-base text-slate-500">
-            Housing Management Made Easy
-          </p>
+          <p className="text-base text-slate-500">Join BariBondhon Community</p>
         </div>
 
         <div className="flex-1 flex flex-col animate-[fadeInUp_0.6s_ease_forwards_0.1s] opacity-0 [animation-fill-mode:forwards]">
@@ -49,7 +38,24 @@ const Login = () => {
             <input
               type="text"
               className="w-full h-14 bg-slate-50/80 border-2 border-slate-200 rounded-2xl px-5 pl-[55px] text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300"
-              placeholder="Username"
+              placeholder="Full Name"
+            />
+          </div>
+
+          <div className="mb-5 relative group">
+            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-300 w-[22px] h-[22px] group-focus-within:text-[#4a90e2]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
+            </span>
+            <input
+              type="email"
+              className="w-full h-14 bg-slate-50/80 border-2 border-slate-200 rounded-2xl px-5 pl-[55px] text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300"
+              placeholder="Email"
             />
           </div>
 
@@ -70,24 +76,21 @@ const Login = () => {
             />
           </div>
 
-          <div className="my-2.5 mb-5 animate-[fadeInUp_0.6s_ease_forwards_0.2s] opacity-0 [animation-fill-mode:forwards]">
-            <label className="text-base text-slate-800 mb-3 block font-medium">
-              Login as
-            </label>
-            <div className="flex bg-slate-100 rounded-2xl p-1">
-              <RoleButton
-                label="Owner"
-                role={Role.OWNER}
-                currentRole={role}
-                onClick={handleRoleChange}
-              />
-              <RoleButton
-                label="Tenant"
-                role={Role.TENANT}
-                currentRole={role}
-                onClick={handleRoleChange}
-              />
-            </div>
+          <div className="mb-5 relative group">
+            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-300 w-[22px] h-[22px] group-focus-within:text-[#4a90e2]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+              </svg>
+            </span>
+            <input
+              type="password"
+              className="w-full h-14 bg-slate-50/80 border-2 border-slate-200 rounded-2xl px-5 pl-[55px] text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300"
+              placeholder="Confirm Password"
+            />
           </div>
 
           <button
@@ -96,27 +99,19 @@ const Login = () => {
               background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
             }}
           >
-            Login
+            Create Account
           </button>
 
           <div className="mt-auto pt-5 text-center animate-[fadeInUp_0.6s_ease_forwards_0.4s] opacity-0 [animation-fill-mode:forwards]">
-            <Link
-              href="/forgot-password"
-              className="text-[#4a90e2] no-underline text-base font-medium block mb-5 hover:opacity-80 transition-opacity"
-            >
-              Forgot Password?
-            </Link>
-            {role === Role.OWNER && (
-              <p className="text-slate-500 text-base">
-                Don't have an account?{" "}
-                <Link
-                  href="/signup"
-                  className="text-[#4a90e2] no-underline font-semibold hover:opacity-80 transition-opacity"
-                >
-                  Register
-                </Link>
-              </p>
-            )}
+            <p className="text-slate-500 text-base">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-[#4a90e2] no-underline font-semibold hover:opacity-80 transition-opacity"
+              >
+                Login
+              </Link>
+            </p>
           </div>
         </div>
       </div>
@@ -124,4 +119,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

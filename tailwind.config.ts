@@ -8,6 +8,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          start: "#4a90e2",
+          end: "#50e3c2",
+        },
+      },
+      boxShadow: {
+        primary: "0 10px 30px rgba(74, 144, 226, 0.4)",
+        "primary-md": "0 8px 30px rgba(74, 144, 226, 0.4)",
+        "primary-lg": "0 12px 40px rgba(74, 144, 226, 0.4)",
+        "primary-sm": "0 4px 20px rgba(74, 144, 226, 0.4)",
+      },
       keyframes: {
         popIn: {
           from: {

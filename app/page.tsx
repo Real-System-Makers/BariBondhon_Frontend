@@ -13,7 +13,7 @@ const Home = () => {
               Log In
             </button>
           </Link>
-          <Link href="/register">
+          <Link href="/signup">
             <button className="px-4 py-2 border-none rounded-xl text-sm font-semibold cursor-pointer transition-all duration-300 bg-indigo-500 text-white hover:bg-indigo-600">
               Register
             </button>
