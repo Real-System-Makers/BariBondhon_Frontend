@@ -1,45 +1,41 @@
 "use client";
 
 import Link from "next/link";
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { signupAction } from "@/lib/actions/auth.actions";
 import { useAuthStore } from "@/lib/stores/auth.store";
+import { signupSchema, SignupFormData } from "@/lib/schemas";
+import { FormInput } from "@/lib/components/forms";
+import { SignUpData } from "@/lib/types/auth.types";
 
 const SignUp = () => {
   const router = useRouter();
   const { setUser } = useAuthStore();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(signupSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const onSubmit = async (data: SignupFormData) => {
     setError("");
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long");
-      return;
-    }
-
-    setIsLoading(true);
-
     try {
-      const response = await signupAction({
-        name,
-        email,
-        password,
-        confirmPassword,
-      });
+      const response = await signupAction(data as SignUpData);
 
       if (response.success && response.data) {
         setUser(response.data);
@@ -49,8 +45,6 @@ const SignUp = () => {
       }
     } catch {
       setError("An unexpected error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
     }
   };
   return (
@@ -75,7 +69,7 @@ const SignUp = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex-1 flex flex-col animate-[fadeInUp_0.6s_ease_forwards_0.1s] opacity-0 [animation-fill-mode:forwards]"
         >
           {error && (
@@ -84,8 +78,14 @@ const SignUp = () => {
             </div>
           )}
 
-          <div className="mb-5 relative group">
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-300 w-[22px] h-[22px] group-focus-within:text-[#4a90e2]">
+          <FormInput
+            name="name"
+            control={control}
+            type="text"
+            placeholder="Full Name"
+            disabled={isSubmitting}
+            error={errors.name}
+            icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -93,20 +93,17 @@ const SignUp = () => {
               >
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
               </svg>
-            </span>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full h-14 bg-slate-50/80 border-2 border-slate-200 rounded-2xl px-5 pl-[55px] text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300"
-              placeholder="Full Name"
-              required
-              disabled={isLoading}
-            />
-          </div>
+            }
+          />
 
-          <div className="mb-5 relative group">
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-300 w-[22px] h-[22px] group-focus-within:text-[#4a90e2]">
+          <FormInput
+            name="email"
+            control={control}
+            type="email"
+            placeholder="Email"
+            disabled={isSubmitting}
+            error={errors.email}
+            icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -114,20 +111,17 @@ const SignUp = () => {
               >
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
               </svg>
-            </span>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-14 bg-slate-50/80 border-2 border-slate-200 rounded-2xl px-5 pl-[55px] text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300"
-              placeholder="Email"
-              required
-              disabled={isLoading}
-            />
-          </div>
+            }
+          />
 
-          <div className="mb-5 relative group">
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-300 w-[22px] h-[22px] group-focus-within:text-[#4a90e2]">
+          <FormInput
+            name="password"
+            control={control}
+            type="password"
+            placeholder="Password"
+            disabled={isSubmitting}
+            error={errors.password}
+            icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -135,20 +129,17 @@ const SignUp = () => {
               >
                 <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z" />
               </svg>
-            </span>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-14 bg-slate-50/80 border-2 border-slate-200 rounded-2xl px-5 pl-[55px] text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300"
-              placeholder="Password"
-              required
-              disabled={isLoading}
-            />
-          </div>
+            }
+          />
 
-          <div className="mb-5 relative group">
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 transition-colors duration-300 w-[22px] h-[22px] group-focus-within:text-[#4a90e2]">
+          <FormInput
+            name="confirmPassword"
+            control={control}
+            type="password"
+            placeholder="Confirm Password"
+            disabled={isSubmitting}
+            error={errors.confirmPassword}
+            icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -156,27 +147,18 @@ const SignUp = () => {
               >
                 <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
               </svg>
-            </span>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full h-14 bg-slate-50/80 border-2 border-slate-200 rounded-2xl px-5 pl-[55px] text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300"
-              placeholder="Confirm Password"
-              required
-              disabled={isLoading}
-            />
-          </div>
+            }
+          />
 
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isSubmitting}
             className="w-full h-14 border-none rounded-2xl text-white text-lg font-semibold cursor-pointer transition-all duration-300 mt-5 hover:-translate-y-0.5 animate-[fadeInUp_0.6s_ease_forwards_0.3s] opacity-0 [animation-fill-mode:forwards] shadow-primary-md hover:shadow-primary-lg disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
             }}
           >
-            {isLoading ? "Creating Account..." : "Create Account"}
+            {isSubmitting ? "Creating Account..." : "Create Account"}
           </button>
 
           <div className="mt-auto pt-5 text-center animate-[fadeInUp_0.6s_ease_forwards_0.4s] opacity-0 [animation-fill-mode:forwards]">
