@@ -1,11 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { Role } from "@/lib/constants/role";
+import { primaryStart, primaryEnd, shadowColor } from "./_lib/colors";
+import RoleButton from "./_components/RoleButton";
 
 const Login = () => {
-  const primaryStart = "#4a90e2";
-  const primaryEnd = "#50e3c2";
-  const shadowColor = "rgba(74, 144, 226, 0.4)";
+  const [role, setRole] = useState<Role>(Role.OWNER);
+
+  const handleRoleChange = (role: Role) => {
+    setRole(role);
+  };
 
   return (
     <div className="p-5">
@@ -77,22 +83,18 @@ const Login = () => {
               Login as
             </label>
             <div className="flex bg-slate-100 rounded-2xl p-1">
-              <div
-                className="flex-1 py-3.5 text-center rounded-xl cursor-pointer text-base font-semibold transition-all duration-[400ms] text-white"
-                style={{
-                  background: `linear-gradient(135deg, ${primaryStart}, ${primaryEnd})`,
-                  boxShadow: `0 4px 20px ${shadowColor}`,
-                }}
-                data-role="owner"
-              >
-                Owner
-              </div>
-              <div
-                className="flex-1 py-3.5 text-center rounded-xl cursor-pointer text-base font-semibold transition-all duration-[400ms] text-slate-600"
-                data-role="tenant"
-              >
-                Tenant
-              </div>
+              <RoleButton
+                label="Owner"
+                role={Role.OWNER}
+                currentRole={role}
+                onClick={handleRoleChange}
+              />
+              <RoleButton
+                label="Tenant"
+                role={Role.TENANT}
+                currentRole={role}
+                onClick={handleRoleChange}
+              />
             </div>
           </div>
 
@@ -119,15 +121,17 @@ const Login = () => {
             >
               Forgot Password?
             </Link>
-            <p className="text-slate-500 text-base">
-              Don't have an account?{" "}
-              <Link
-                href="/signup"
-                className="text-[#4a90e2] no-underline font-semibold hover:opacity-80 transition-opacity"
-              >
-                Register
-              </Link>
-            </p>
+            {role === Role.OWNER && (
+              <p className="text-slate-500 text-base">
+                Don't have an account?{" "}
+                <Link
+                  href="/signup"
+                  className="text-[#4a90e2] no-underline font-semibold hover:opacity-80 transition-opacity"
+                >
+                  Register
+                </Link>
+              </p>
+            )}
           </div>
         </div>
       </div>
