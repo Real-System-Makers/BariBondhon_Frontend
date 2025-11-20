@@ -1,7 +1,12 @@
+import { Role } from "../constants/role";
+
 export interface User {
   _id: string;
   name: string;
   email: string;
+  address?: string;
+  phone: string;
+  role: Role;
 }
 
 export interface LoginCredentials {
@@ -15,6 +20,9 @@ export interface SignUpData {
   email: string;
   password: string;
   confirmPassword: string;
+  address: string;
+  phone: string;
+  role: Role;
 }
 
 export interface AuthResponse {

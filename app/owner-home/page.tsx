@@ -1,17 +1,11 @@
 import Link from "next/link";
+import OwnerInfo from "./_components/OwnerInfo";
 
 const OwnerHome = () => {
   return (
     <div className="flex flex-col h-full">
-      <div className="bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] pt-[50px] px-6 pb-[30px] text-white relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[30px] after:bg-white after:rounded-t-[30px]">
-        <div className="relative z-[2]">
-          <div className="text-base opacity-90 mb-1">Good Evening,</div>
-          <div className="text-2xl font-bold mb-2">Cristiano Messi</div>
-          <div className="text-sm opacity-80">
-            House#20,Road#9,Rupnagar-R/A,Mirpur-2
-          </div>
-        </div>
-      </div>
+      <OwnerInfo />
+
       <div className="p-5 px-6 flex-1 overflow-y-auto">
         <div className="text-xl font-bold text-slate-800 mb-4">
           Monthly Overview

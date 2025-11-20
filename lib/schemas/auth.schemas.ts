@@ -35,6 +35,15 @@ export const signupSchema = yup.object().shape({
     .string()
     .required("Please confirm your password")
     .oneOf([yup.ref("password")], "Passwords must match"),
+  address: yup
+    .string()
+    .required("Address is required")
+    .min(5, "Address must be at least 5 characters"),
+  phone: yup
+    .string()
+    .required("Phone number is required")
+    .matches(/^[0-9+\-\s()]+$/, "Please enter a valid phone number")
+    .min(11, "Phone number must be at least 11 digits"),
 });
 
 export type LoginFormData = InferType<typeof loginSchema>;
