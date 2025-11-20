@@ -114,7 +114,7 @@ const OwnerHome = () => {
               </div>
             </Link>
             <Link
-              href="/flat-list"
+              href="/flat-management"
               className="bg-white border-2 border-slate-200 rounded-2xl py-5 px-4 text-center cursor-pointer transition-all duration-300 ease-in-out no-underline text-inherit hover:border-[#4a90e2] hover:bg-gradient-to-br hover:from-slate-50 hover:to-white hover:-translate-y-px"
             >
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] flex items-center justify-center mx-auto mb-3 text-2xl text-white">
