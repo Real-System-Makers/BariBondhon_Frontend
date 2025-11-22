@@ -1,16 +1,75 @@
 "use client";
 
+import {
+  createFlatAction,
+  deleteFlatAction,
+  getFlatsAction,
+} from "@/lib/actions/flat.actions";
+import { Flat } from "@/lib/types/flat";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const FlatManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [flats, setFlats] = useState<Flat[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Form state
+  const [flatName, setFlatName] = useState("");
   const [bedrooms, setBedrooms] = useState(2);
   const [bathrooms, setBathrooms] = useState(1);
+  const [rent, setRent] = useState("");
+  const [status, setStatus] = useState<"Vacant" | "Occupied">("Vacant");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fetchFlats = async () => {
+    try {
+      const data = await getFlatsAction();
+      setFlats(data);
+    } catch (error) {
+      console.error("Failed to fetch flats:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFlats();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsModalOpen(false);
+    try {
+      await createFlatAction({
+        name: flatName,
+        bedrooms,
+        bathrooms,
+        rent: Number(rent),
+        status,
+      });
+      setIsModalOpen(false);
+      // Reset form
+      setFlatName("");
+      setBedrooms(2);
+      setBathrooms(1);
+      setRent("");
+      setStatus("Vacant");
+      // Refresh list
+      fetchFlats();
+    } catch (error) {
+      console.error("Failed to create flat:", error);
+      alert("Failed to create flat");
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this flat?")) return;
+    try {
+      await deleteFlatAction(id);
+      fetchFlats();
+    } catch (error) {
+      console.error("Failed to delete flat:", error);
+      alert("Failed to delete flat");
+    }
   };
 
   const adjustValue = (
@@ -41,79 +100,62 @@ const FlatManagement = () => {
 
         <div className="flex-1 p-5 px-6 overflow-y-auto relative">
           <div className="text-base text-slate-500 mb-5 font-medium">
-            You are managing 3 flats in total.
+            You are managing {flats.length} flats in total.
           </div>
 
-          <div className="flex flex-col gap-4 pb-20">
-            <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200 transition-all duration-300 animate-[slideInUp_0.5s_ease_forwards]">
-              <div className="flex justify-between items-start mb-3">
-                <div className="text-lg font-bold text-slate-800">1A</div>
-                <div className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-red-100 text-red-800">
-                  Occupied
+          {isLoading ? (
+            <div className="text-center py-10 text-slate-500">Loading...</div>
+          ) : (
+            <div className="flex flex-col gap-4 pb-20">
+              {flats.map((flat) => (
+                <div
+                  key={flat._id}
+                  className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200 transition-all duration-300 animate-[slideInUp_0.5s_ease_forwards] relative group"
+                >
+                  <button
+                    onClick={() => handleDelete(flat._id)}
+                    className="absolute top-4 right-4 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-100"
+                    title="Delete Flat"
+                  >
+                    ×
+                  </button>
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="text-lg font-bold text-slate-800">
+                      {flat.name}
+                    </div>
+                    <div
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold ${
+                        flat.status === "Occupied"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-green-100 text-green-800"
+                      }`}
+                    >
+                      {flat.status}
+                    </div>
+                  </div>
+                  <div className="text-[22px] font-extrabold text-slate-800 mb-4">
+                    ৳{flat.rent.toLocaleString()}{" "}
+                    <span className="text-sm font-medium text-slate-500">
+                      / month
+                    </span>
+                  </div>
+                  <div className="flex gap-5 pt-4 border-t border-slate-100">
+                    <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                      🛏️ {flat.bedrooms} Beds
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                      🛁 {flat.bathrooms} Baths
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="text-[22px] font-extrabold text-slate-800 mb-4">
-                ৳25,000{" "}
-                <span className="text-sm font-medium text-slate-500">
-                  / month
-                </span>
-              </div>
-              <div className="flex gap-5 pt-4 border-t border-slate-100">
-                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                  🛏️ 3 Beds
+              ))}
+              {flats.length === 0 && (
+                <div className="text-center py-10 text-slate-400">
+                  No flats found. Add one to get started!
                 </div>
-                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                  🛁 2 Baths
-                </div>
-              </div>
+              )}
             </div>
-
-            <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200 transition-all duration-300 animate-[slideInUp_0.5s_ease_forwards]">
-              <div className="flex justify-between items-start mb-3">
-                <div className="text-lg font-bold text-slate-800">1B</div>
-                <div className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-green-100 text-green-800">
-                  Vacant
-                </div>
-              </div>
-              <div className="text-[22px] font-extrabold text-slate-800 mb-4">
-                ৳22,500{" "}
-                <span className="text-sm font-medium text-slate-500">
-                  / month
-                </span>
-              </div>
-              <div className="flex gap-5 pt-4 border-t border-slate-100">
-                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                  🛏️ 2 Beds
-                </div>
-                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                  🛁 2 Baths
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200 transition-all duration-300 animate-[slideInUp_0.5s_ease_forwards]">
-              <div className="flex justify-between items-start mb-3">
-                <div className="text-lg font-bold text-slate-800">2A</div>
-                <div className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-red-100 text-red-800">
-                  Occupied
-                </div>
-              </div>
-              <div className="text-[22px] font-extrabold text-slate-800 mb-4">
-                ৳18,000{" "}
-                <span className="text-sm font-medium text-slate-500">
-                  / month
-                </span>
-              </div>
-              <div className="flex gap-5 pt-4 border-t border-slate-100">
-                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                  🛏️ 2 Beds
-                </div>
-                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                  🛁 1 Bath
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
         <button
@@ -151,6 +193,8 @@ const FlatManagement = () => {
                   <input
                     type="text"
                     id="flatName"
+                    value={flatName}
+                    onChange={(e) => setFlatName(e.target.value)}
                     className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3.5 py-3 text-base text-gray-700 transition-all duration-300 focus:outline-none focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.1)]"
                     placeholder="e.g. 4C"
                     required
@@ -230,10 +274,41 @@ const FlatManagement = () => {
                   <input
                     type="number"
                     id="basicRent"
+                    value={rent}
+                    onChange={(e) => setRent(e.target.value)}
                     className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3.5 py-3 text-base text-gray-700 transition-all duration-300 focus:outline-none focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.1)]"
                     placeholder="e.g., 20000"
                     required
                   />
+                </div>
+                <div className="mb-5">
+                  <label className="block text-sm font-semibold text-slate-800 mb-2">
+                    Status
+                  </label>
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setStatus("Vacant")}
+                      className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-all ${
+                        status === "Vacant"
+                          ? "bg-green-100 text-green-800 border-2 border-green-200"
+                          : "bg-slate-50 text-slate-500 border-2 border-slate-200"
+                      }`}
+                    >
+                      Vacant
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStatus("Occupied")}
+                      className={`flex-1 py-2 rounded-xl text-sm font-semibold transition-all ${
+                        status === "Occupied"
+                          ? "bg-red-100 text-red-800 border-2 border-red-200"
+                          : "bg-slate-50 text-slate-500 border-2 border-slate-200"
+                      }`}
+                    >
+                      Occupied
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="px-6 pb-6">
