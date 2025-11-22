@@ -20,6 +20,7 @@ const FlatManagement = () => {
   const [bathrooms, setBathrooms] = useState(1);
   const [rent, setRent] = useState("");
   const [status, setStatus] = useState<"Vacant" | "Occupied">("Vacant");
+  const [note, setNote] = useState("");
 
   const fetchFlats = async () => {
     try {
@@ -45,6 +46,7 @@ const FlatManagement = () => {
         bathrooms,
         rent: Number(rent),
         status,
+        note,
       });
       setIsModalOpen(false);
       // Reset form
@@ -53,6 +55,7 @@ const FlatManagement = () => {
       setBathrooms(1);
       setRent("");
       setStatus("Vacant");
+      setNote("");
       // Refresh list
       fetchFlats();
     } catch (error) {
@@ -139,6 +142,11 @@ const FlatManagement = () => {
                       / month
                     </span>
                   </div>
+                  {flat.note && (
+                    <div className="text-sm text-slate-500 mb-4 italic">
+                      "{flat.note}"
+                    </div>
+                  )}
                   <div className="flex gap-5 pt-4 border-t border-slate-100">
                     <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
                       🛏️ {flat.bedrooms} Beds
@@ -309,6 +317,21 @@ const FlatManagement = () => {
                       Occupied
                     </button>
                   </div>
+                </div>
+                <div className="mb-5">
+                  <label
+                    htmlFor="note"
+                    className="block text-sm font-semibold text-slate-800 mb-2"
+                  >
+                    Note (Optional)
+                  </label>
+                  <textarea
+                    id="note"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3.5 py-3 text-base text-gray-700 transition-all duration-300 focus:outline-none focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.1)] min-h-[100px] resize-y"
+                    placeholder="Any additional information..."
+                  />
                 </div>
               </div>
               <div className="px-6 pb-6">

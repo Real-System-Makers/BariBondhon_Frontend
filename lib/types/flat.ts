@@ -5,6 +5,7 @@ export interface Flat {
   bathrooms: number;
   rent: number;
   status: 'Vacant' | 'Occupied';
+  note?: string;
 }
 
 export interface CreateFlatDto {
@@ -13,4 +14,5 @@ export interface CreateFlatDto {
   bathrooms: number;
   rent: number;
   status: 'Vacant' | 'Occupied';
+  note?: string;
 }
