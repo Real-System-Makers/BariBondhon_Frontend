@@ -12,7 +12,7 @@ const FlatList = ({ flats, isLoading, onDelete, onEdit }: FlatListProps) => {
   return (
     <div className="flex-1 p-5 px-6 overflow-y-auto relative">
       <div className="text-base text-slate-500 mb-5 font-medium">
-        You are managing {flats.length} flats in total.
+        You have {flats.length} flats.
       </div>
 
       {isLoading ? (
