@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { CreateFlatDto, Flat } from "../types/flat";
+import { CreateFlatDto, Flat, UpdateFlatDto } from "../types/flat";
 import { ApiClient } from "../utils/api-client";
 
 export async function getFlatsAction(): Promise<Flat[]> {
@@ -20,6 +20,20 @@ export async function createFlatAction(data: CreateFlatDto): Promise<Flat> {
     return flat;
   } catch (error) {
     console.error("Failed to create flat:", error);
+    throw error;
+  }
+}
+
+export async function updateFlatAction(
+  id: string,
+  data: UpdateFlatDto
+): Promise<Flat> {
+  try {
+    const flat = await ApiClient.patch<Flat>(`/flats/${id}`, data);
+    revalidatePath("/flat-management");
+    return flat;
+  } catch (error) {
+    console.error("Failed to update flat:", error);
     throw error;
   }
 }

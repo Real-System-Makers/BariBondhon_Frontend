@@ -11,6 +11,7 @@ const FlatManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [flats, setFlats] = useState<Flat[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedFlat, setSelectedFlat] = useState<Flat | null>(null);
 
   const fetchFlats = async () => {
     try {
@@ -38,14 +39,29 @@ const FlatManagement = () => {
     }
   };
 
+  const handleEdit = (flat: Flat) => {
+    setSelectedFlat(flat);
+    setIsModalOpen(true);
+  };
+
+  const handleCreate = () => {
+    setSelectedFlat(null);
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <div className="flex flex-col h-full">
         <Header />
-        <FlatList flats={flats} isLoading={isLoading} onDelete={handleDelete} />
+        <FlatList
+          flats={flats}
+          isLoading={isLoading}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
 
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleCreate}
           className="absolute bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] border-none rounded-full text-white text-[28px] cursor-pointer shadow-[0_8px_30px_rgba(74,144,226,0.4)] transition-all duration-300 flex items-center justify-center z-50 hover:-translate-y-0.5 hover:scale-105 hover:shadow-[0_12px_40px_rgba(74,144,226,0.5)]"
           title="Add New Flat"
         >
@@ -57,6 +73,7 @@ const FlatManagement = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSuccess={fetchFlats}
+        flat={selectedFlat}
       />
     </>
   );

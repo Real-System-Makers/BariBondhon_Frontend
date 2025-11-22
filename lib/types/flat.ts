@@ -16,3 +16,5 @@ export interface CreateFlatDto {
   status: 'Vacant' | 'Occupied';
   note?: string;
 }
+
+export type UpdateFlatDto = Partial<CreateFlatDto>;

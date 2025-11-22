@@ -1,17 +1,20 @@
-import { createFlatAction } from "@/lib/actions/flat.actions";
-import { useState } from "react";
+import { createFlatAction, updateFlatAction } from "@/lib/actions/flat.actions";
+import { Flat } from "@/lib/types/flat";
+import { useEffect, useState } from "react";
 
-interface CreateFlatModalProps {
+interface FlatModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  flat?: Flat | null;
 }
 
-const CreateFlatModal = ({
+const FlatModal = ({
   isOpen,
   onClose,
   onSuccess,
-}: CreateFlatModalProps) => {
+  flat,
+}: FlatModalProps) => {
   const [flatName, setFlatName] = useState("");
   const [bedrooms, setBedrooms] = useState(2);
   const [bathrooms, setBathrooms] = useState(1);
@@ -19,30 +22,48 @@ const CreateFlatModal = ({
   const [status, setStatus] = useState<"Vacant" | "Occupied">("Vacant");
   const [note, setNote] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await createFlatAction({
-        name: flatName,
-        bedrooms,
-        bathrooms,
-        rent: Number(rent),
-        status,
-        note,
-      });
-      // Reset form
+  useEffect(() => {
+    if (flat) {
+      setFlatName(flat.name);
+      setBedrooms(flat.bedrooms);
+      setBathrooms(flat.bathrooms);
+      setRent(flat.rent.toString());
+      setStatus(flat.status);
+      setNote(flat.note || "");
+    } else {
+      // Reset form for new flat
       setFlatName("");
       setBedrooms(2);
       setBathrooms(1);
       setRent("");
       setStatus("Vacant");
       setNote("");
+    }
+  }, [flat, isOpen]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const flatData = {
+        name: flatName,
+        bedrooms,
+        bathrooms,
+        rent: Number(rent),
+        status,
+        note,
+      };
+
+      if (flat) {
+        await updateFlatAction(flat._id, flatData);
+      } else {
+        await createFlatAction(flatData);
+      }
       
       onSuccess();
       onClose();
     } catch (error) {
-      console.error("Failed to create flat:", error);
-      alert("Failed to create flat");
+      console.error("Failed to save flat:", error);
+      alert("Failed to save flat");
     }
   };
 
@@ -63,7 +84,9 @@ const CreateFlatModal = ({
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[1000] p-5 opacity-100 visible transition-all duration-300">
       <div className="bg-white rounded-[20px] w-full max-w-[350px] shadow-[0_25px_80px_rgba(0,0,0,0.3)] transform translate-y-0 transition-all duration-300 flex flex-col max-h-[90vh]">
         <div className="p-5 px-6 flex justify-between items-center border-b border-slate-200 shrink-0">
-          <div className="text-lg font-bold text-slate-800">Add New Flat</div>
+          <div className="text-lg font-bold text-slate-800">
+            {flat ? "Edit Flat" : "Add New Flat"}
+          </div>
           <button
             onClick={onClose}
             className="w-8 h-8 border-none bg-slate-100 text-slate-500 rounded-full cursor-pointer text-lg flex items-center justify-center hover:bg-slate-200 transition-colors"
@@ -221,7 +244,7 @@ const CreateFlatModal = ({
               type="submit"
               className="w-full bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] border-none rounded-xl py-3.5 text-white text-base font-bold cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"
             >
-              Save Flat
+              {flat ? "Update Flat" : "Save Flat"}
             </button>
           </div>
         </form>
@@ -230,4 +253,4 @@ const CreateFlatModal = ({
   );
 };
 
-export default CreateFlatModal;
+export default FlatModal;

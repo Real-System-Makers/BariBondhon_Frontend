@@ -3,18 +3,28 @@ import { Flat } from "@/lib/types/flat";
 interface FlatCardProps {
   flat: Flat;
   onDelete: (id: string) => void;
+  onEdit: (flat: Flat) => void;
 }
 
-const FlatCard = ({ flat, onDelete }: FlatCardProps) => {
+const FlatCard = ({ flat, onDelete, onEdit }: FlatCardProps) => {
   return (
     <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200 transition-all duration-300 animate-[slideInUp_0.5s_ease_forwards] relative group">
-      <button
-        onClick={() => onDelete(flat._id)}
-        className="absolute top-4 right-4 w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-100"
-        title="Delete Flat"
-      >
-        ×
-      </button>
+      <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <button
+          onClick={() => onEdit(flat)}
+          className="w-8 h-8 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center hover:bg-blue-100 transition-colors"
+          title="Edit Flat"
+        >
+          ✎
+        </button>
+        <button
+          onClick={() => onDelete(flat._id)}
+          className="w-8 h-8 bg-red-50 text-red-500 rounded-full flex items-center justify-center hover:bg-red-100 transition-colors"
+          title="Delete Flat"
+        >
+          ×
+        </button>
+      </div>
       <div className="flex justify-between items-start mb-3">
         <div className="text-lg font-bold text-slate-800">{flat.name}</div>
         <div
