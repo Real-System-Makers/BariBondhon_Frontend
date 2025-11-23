@@ -11,6 +11,12 @@ export interface User {
     _id: string;
     name: string;
   };
+  owner?: {
+    _id: string;
+    name: string;
+    email: string;
+    address: string;
+  };
 }
 
 export interface LoginCredentials {
