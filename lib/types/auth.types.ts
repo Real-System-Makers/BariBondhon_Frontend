@@ -7,6 +7,10 @@ export interface User {
   address?: string;
   phone: string;
   role: Role;
+  flat?: {
+    _id: string;
+    name: string;
+  };
 }
 
 export interface LoginCredentials {
