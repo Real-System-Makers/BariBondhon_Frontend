@@ -8,8 +8,7 @@ export const loginSchema = yup.object().shape({
     .email("Please enter a valid email address"),
   password: yup
     .string()
-    .required("Password is required")
-    .min(6, "Password must be at least 6 characters"),
+    .required("Password is required"),
   remember: yup.boolean().notRequired().default(false),
 });
 
@@ -25,12 +24,7 @@ export const signupSchema = yup.object().shape({
     .email("Please enter a valid email address"),
   password: yup
     .string()
-    .required("Password is required")
-    .min(6, "Password must be at least 6 characters")
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-      "Password must contain at least one uppercase letter, one lowercase letter, and one number"
-    ),
+    .required("Password is required"),
   confirmPassword: yup
     .string()
     .required("Please confirm your password")
