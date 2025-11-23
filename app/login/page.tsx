@@ -45,7 +45,12 @@ const Login = () => {
 
       if (response.success && response.data) {
         setUser(response.data);
-        router.push(role === Role.OWNER ? "/owner-home" : "/tenant-home");
+        const userRole = response.data.role;
+        if (!userRole) {
+          setError("Invalid role. Please try again.");
+          return;
+        }
+        router.push(userRole === Role.OWNER ? "/owner-home" : "/tenant-home");
       } else {
         setError(response.error || "Login failed. Please try again.");
       }
