@@ -4,9 +4,10 @@ interface FlatCardProps {
   flat: Flat;
   onDelete: (id: string) => void;
   onEdit: (flat: Flat) => void;
+  onAssign: (flatId: string) => void;
 }
 
-const FlatCard = ({ flat, onDelete, onEdit }: FlatCardProps) => {
+const FlatCard = ({ flat, onDelete, onEdit, onAssign }: FlatCardProps) => {
   return (
     <div className="bg-white rounded-[20px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200 transition-all duration-300 animate-[slideInUp_0.5s_ease_forwards] relative group">
       <div className="flex justify-between items-start mb-3">
@@ -54,6 +55,34 @@ const FlatCard = ({ flat, onDelete, onEdit }: FlatCardProps) => {
           🛁 {flat.bathrooms} Baths
         </div>
       </div>
+
+      {flat.status === "Occupied" && flat.tenant && (
+        <div className="mt-4 pt-4 border-t border-slate-100">
+          <div className="text-xs text-slate-400 font-semibold uppercase tracking-wider mb-1">
+            Current Tenant
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
+              {flat.tenant.name.charAt(0)}
+            </div>
+            <div>
+              <div className="text-sm font-bold text-slate-700">
+                {flat.tenant.name}
+              </div>
+              <div className="text-xs text-slate-500">{flat.tenant.email}</div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {flat.status === "Vacant" && (
+        <button
+            onClick={() => onAssign(flat._id)}
+            className="mt-4 w-full py-2 bg-green-50 text-green-600 rounded-lg font-medium hover:bg-green-100 transition-colors text-sm"
+        >
+            Assign Tenant
+        </button>
+      )}
     </div>
   );
 };

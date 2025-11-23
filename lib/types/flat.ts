@@ -6,6 +6,11 @@ export interface Flat {
   rent: number;
   status: 'Vacant' | 'Occupied';
   note?: string;
+  tenant?: {
+    _id: string;
+    name: string;
+    email: string;
+  };
 }
 
 export interface CreateFlatDto {

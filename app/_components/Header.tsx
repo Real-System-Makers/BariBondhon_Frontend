@@ -2,7 +2,11 @@
 
 import { useRouter } from "next/navigation";
 
-const Header = () => {
+interface HeaderProps {
+  title: string;
+}
+
+const Header = ({ title }: HeaderProps) => {
   const router = useRouter();
 
   return (
@@ -14,7 +18,7 @@ const Header = () => {
         >
           ←
         </button>
-        <div className="text-[22px] font-bold">Flat Management</div>
+        <div className="text-[22px] font-bold">{title}</div>
       </div>
     </div>
   );

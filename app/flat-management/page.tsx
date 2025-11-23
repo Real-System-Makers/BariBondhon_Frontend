@@ -5,13 +5,17 @@ import { Flat } from "@/lib/types/flat";
 import { useEffect, useState } from "react";
 import CreateFlatModal from "./_components/CreateFlatModal";
 import FlatList from "./_components/FlatList";
-import Header from "./_components/Header";
+import Header from "../_components/Header";
+import AssignTenantModal from "./_components/AssignTenantModal";
 
 const FlatManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [flats, setFlats] = useState<Flat[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedFlat, setSelectedFlat] = useState<Flat | null>(null);
+
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
+  const [selectedFlatId, setSelectedFlatId] = useState("");
 
   const fetchFlats = async () => {
     try {
@@ -49,15 +53,21 @@ const FlatManagement = () => {
     setIsModalOpen(true);
   };
 
+  const handleAssign = (flatId: string) => {
+    setSelectedFlatId(flatId);
+    setIsAssignModalOpen(true);
+  };
+
   return (
     <>
       <div className="flex flex-col h-full">
-        <Header />
+        <Header title="Flat Management" />
         <FlatList
           flats={flats}
           isLoading={isLoading}
           onDelete={handleDelete}
           onEdit={handleEdit}
+          onAssign={handleAssign}
         />
 
         <button
@@ -74,6 +84,13 @@ const FlatManagement = () => {
         onClose={() => setIsModalOpen(false)}
         onSuccess={fetchFlats}
         flat={selectedFlat}
+      />
+
+      <AssignTenantModal
+        isOpen={isAssignModalOpen}
+        onClose={() => setIsAssignModalOpen(false)}
+        onSuccess={fetchFlats}
+        flatId={selectedFlatId}
       />
     </>
   );
