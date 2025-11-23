@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { Role } from "./lib/constants/role";
 
 const protectedRoutes = [
   "/owner-home",
@@ -29,7 +30,17 @@ export function middleware(request: NextRequest) {
   }
 
   if (isAuthenticated && (pathname === "/login" || pathname === "/signup")) {
-    return NextResponse.redirect(new URL("/owner-home", request.url));
+    const userRole = request.cookies.get("user_role")?.value;
+
+    if (userRole === Role.TENANT) {
+      return NextResponse.redirect(new URL("/tenant-home", request.url));
+    }
+
+    if (userRole === Role.OWNER) {
+      return NextResponse.redirect(new URL("/owner-home", request.url));
+    }
+
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();

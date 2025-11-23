@@ -13,7 +13,10 @@ import { ApiClient } from "../utils/api-client";
 const SEVEN_DAYS = 7 * 24 * 60 * 60;
 const THIRTY_DAYS = 30 * 24 * 60 * 60;
 
-export async function setAuthCookies(tokens: AuthResponse): Promise<void> {
+export async function setAuthCookies(
+  tokens: AuthResponse,
+  role?: string
+): Promise<void> {
   const cookieStore = await cookies();
 
   cookieStore.set("access_token", tokens.access_token, {
@@ -31,6 +34,16 @@ export async function setAuthCookies(tokens: AuthResponse): Promise<void> {
     maxAge: THIRTY_DAYS,
     path: "/",
   });
+
+  if (role) {
+    cookieStore.set("user_role", role, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: THIRTY_DAYS,
+      path: "/",
+    });
+  }
 }
 
 export async function clearAuthCookies(): Promise<void> {
@@ -38,6 +51,7 @@ export async function clearAuthCookies(): Promise<void> {
 
   cookieStore.delete("access_token");
   cookieStore.delete("refresh_token");
+  cookieStore.delete("user_role");
 }
 
 export async function loginAction(
@@ -55,6 +69,8 @@ export async function loginAction(
     await setAuthCookies(tokens);
 
     const user = await ApiClient.get<User>("/auth/me");
+
+    await setAuthCookies(tokens, user.role);
 
     return {
       success: true,
@@ -79,6 +95,8 @@ export async function signupAction(
     await setAuthCookies(tokens);
 
     const user = await ApiClient.get<User>("/auth/me");
+
+    await setAuthCookies(tokens, user.role);
 
     return {
       success: true,
