@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/global.css";
+import LogoutButton from "./_components/LogoutButton";
+import { checkAuthStatus } from "@/lib/actions/auth.actions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,11 +19,13 @@ export const metadata: Metadata = {
   description: "Your Complete Rental Management Solution!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isLoggedIn = await checkAuthStatus();
+
   return (
     <html lang="en">
       <body
@@ -33,6 +37,7 @@ export default function RootLayout({
       >
         <div className="w-full max-w-md mx-auto bg-white rounded-[30px] shadow-[0_25px_80px_rgba(0,0,0,0.15)] overflow-hidden relative min-h-[calc(100vh-2.5rem)] flex flex-col">
           {children}
+          <LogoutButton isLoggedIn={isLoggedIn} />
         </div>
       </body>
     </html>
