@@ -39,6 +39,7 @@ export class ApiClient {
     }
 
     const url = `${API_URL}${endpoint}`;
+    console.log(`[ApiClient] Requesting: ${options.method || 'GET'} ${url}`);
 
     try {
       const response = await fetch(url, {

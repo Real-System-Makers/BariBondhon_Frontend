@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { CreateFlatDto, Flat, UpdateFlatDto } from "../types/flat";
+import { CreateFlatDto, Flat, UpdateFlatDto, UpdateElectricityDto, BatchUpdateElectricityDto } from "../types/flat";
 import { ApiClient } from "../utils/api-client";
 
 export async function getFlatsAction(): Promise<Flat[]> {
@@ -44,6 +44,35 @@ export async function deleteFlatAction(id: string): Promise<void> {
     revalidatePath("/flat-management");
   } catch (error) {
     console.error("Failed to delete flat:", error);
+    throw error;
+  }
+}
+
+export async function updateElectricityAction(
+  flatId: string,
+  data: UpdateElectricityDto
+): Promise<Flat> {
+  try {
+    const flat = await ApiClient.patch<Flat>(`/flats/${flatId}/electricity`, data);
+    revalidatePath("/electrcity-entry");
+    revalidatePath("/owner-home");
+    return flat;
+  } catch (error) {
+    console.error("Failed to update electricity:", error);
+    throw error;
+  }
+}
+
+export async function batchUpdateElectricityAction(
+  data: BatchUpdateElectricityDto
+): Promise<{ updated: number; failed: string[] }> {
+  try {
+    const result = await ApiClient.post<{ updated: number; failed: string[] }>("/flats/electricity/batch", data);
+    revalidatePath("/electrcity-entry");
+    revalidatePath("/owner-home");
+    return result;
+  } catch (error) {
+    console.error("Failed to batch update electricity:", error);
     throw error;
   }
 }

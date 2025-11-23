@@ -11,6 +11,11 @@ export interface Flat {
     name: string;
     email: string;
   };
+  // Electricity tracking
+  previousElectricityReading?: number;
+  currentElectricityReading?: number;
+  electricityRatePerUnit?: number;
+  lastElectricityUpdateDate?: string;
 }
 
 export interface CreateFlatDto {
@@ -22,4 +27,15 @@ export interface CreateFlatDto {
   note?: string;
 }
 
-export type UpdateFlatDto = Partial<CreateFlatDto>;
+export type UpdateFlatDto = Partial<CreateFlatDto> & {
+  tenant?: string | null;
+};
+
+export interface UpdateElectricityDto {
+  currentReading: number;
+  ratePerUnit?: number;
+}
+
+export interface BatchUpdateElectricityDto {
+  updates: { flatId: string; currentReading: number }[];
+}
