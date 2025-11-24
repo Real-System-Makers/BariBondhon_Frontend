@@ -11,6 +11,7 @@ import { signupSchema, SignupFormData } from "@/lib/schemas";
 import { FormInput } from "@/lib/components/forms";
 import { SignUpData } from "@/lib/types/auth.types";
 import { Role } from "@/lib/constants/role";
+import Image from "next/image";
 
 const SignUp = () => {
   const router = useRouter();
@@ -68,7 +69,7 @@ const SignUp = () => {
               background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
             }}
           >
-            BB
+            <Image src="/logo.png" alt="BariBondhon" width={70} height={70} />
           </div>
           <h1 className="text-[28px] font-bold text-slate-800 mb-2">
             Create Account

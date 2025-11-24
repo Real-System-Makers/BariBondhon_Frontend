@@ -12,6 +12,7 @@ import { useAuthStore } from "@/lib/stores/auth.store";
 import { loginSchema, LoginFormData } from "@/lib/schemas";
 import { FormInput } from "@/lib/components/forms";
 import { LoginCredentials } from "@/lib/types/auth.types";
+import Image from "next/image";
 
 const Login = () => {
   const router = useRouter();
@@ -72,7 +73,7 @@ const Login = () => {
               background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
             }}
           >
-            BB
+            <Image src="/logo.png" alt="BariBondhon" width={70} height={70} />
           </div>
           <h1 className="text-[28px] font-bold text-slate-800 mb-2">
             BariBondhon
