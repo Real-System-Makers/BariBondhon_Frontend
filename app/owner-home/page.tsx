@@ -26,9 +26,11 @@ const OwnerHome = () => {
   useEffect(() => {
     const fetchData = async () => {
       const currentDate = new Date();
-      const month = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}`;
+      const month = `${currentDate.getFullYear()}-${String(
+        currentDate.getMonth() + 1
+      ).padStart(2, "0")}`;
       const year = currentDate.getFullYear();
-      
+
       setCurrentMonth(month);
       setCurrentYear(year);
 
@@ -36,7 +38,7 @@ const OwnerHome = () => {
         getMonthlyStatsAction(month, year),
         getHouseAction(),
       ]);
-      
+
       setStats(statsData);
       setHouse(houseData);
       setLoading(false);
@@ -81,7 +83,8 @@ const OwnerHome = () => {
                   Rent Collected
                 </div>
                 <div className="text-xs mt-2 flex items-center gap-1 text-green-500">
-                  {stats?.paidCount || 0} tenant{stats?.paidCount !== 1 ? "s" : ""} paid the rent
+                  {stats?.paidCount || 0} tenant
+                  {stats?.paidCount !== 1 ? "s" : ""} paid the rent
                 </div>
               </>
             )}
@@ -95,13 +98,26 @@ const OwnerHome = () => {
             ) : (
               <>
                 <div className="text-[28px] font-extrabold text-red-600 mb-2">
-                  ৳{((stats?.totalPending || 0) + (stats?.totalOverdue || 0)).toLocaleString() || "0"}
+                  ৳
+                  {(
+                    (stats?.totalPending || 0) + (stats?.totalOverdue || 0)
+                  ).toLocaleString() || "0"}
                 </div>
                 <div className="text-sm text-slate-500 font-medium">
                   Pending Rent
                 </div>
                 <div className="text-xs mt-2 flex items-center gap-1 text-red-500">
-                  {(stats?.pendingCount || 0) + (stats?.partialCount || 0) + (stats?.overdueCount || 0)} tenant{((stats?.pendingCount || 0) + (stats?.partialCount || 0) + (stats?.overdueCount || 0)) !== 1 ? "s" : ""} pending
+                  {(stats?.pendingCount || 0) +
+                    (stats?.partialCount || 0) +
+                    (stats?.overdueCount || 0)}{" "}
+                  tenant
+                  {(stats?.pendingCount || 0) +
+                    (stats?.partialCount || 0) +
+                    (stats?.overdueCount || 0) !==
+                  1
+                    ? "s"
+                    : ""}{" "}
+                  pending
                 </div>
               </>
             )}
@@ -113,7 +129,7 @@ const OwnerHome = () => {
             Utility Section
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <div 
+            <div
               onClick={() => router.push("/electrcity-entry")}
               className="bg-white rounded-2xl p-4 text-center shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200/80 transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:border-[#4a90e2]"
             >
@@ -127,7 +143,7 @@ const OwnerHome = () => {
                 Electricity
               </div>
             </div>
-            <div 
+            <div
               onClick={() => setIsWaterModalOpen(true)}
               className="bg-white rounded-2xl p-4 text-center shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200/80 transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:border-[#4a90e2]"
             >
@@ -135,11 +151,13 @@ const OwnerHome = () => {
                 💧
               </div>
               <div className="text-base font-bold text-slate-800 mb-1">
-                {house && house.waterBill > 0 ? `৳${house.waterBill.toLocaleString()}` : "Set Amount"}
+                {house && house.waterBill > 0
+                  ? `৳${house.waterBill.toLocaleString()}`
+                  : "Set Amount"}
               </div>
               <div className="text-xs text-slate-500 font-medium">Water</div>
             </div>
-            <div 
+            <div
               onClick={() => setIsGasModalOpen(true)}
               className="bg-white rounded-2xl p-4 text-center shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-slate-200/80 transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:border-[#4a90e2]"
             >
@@ -147,7 +165,9 @@ const OwnerHome = () => {
                 🔥
               </div>
               <div className="text-base font-bold text-slate-800 mb-1">
-                {house && house.gasBill > 0 ? `৳${house.gasBill.toLocaleString()}` : "Set Amount"}
+                {house && house.gasBill > 0
+                  ? `৳${house.gasBill.toLocaleString()}`
+                  : "Set Amount"}
               </div>
               <div className="text-xs text-slate-500 font-medium">Gas</div>
             </div>
@@ -171,7 +191,7 @@ const OwnerHome = () => {
               </div>
             </Link>
             <Link
-              href="/notice/upload"
+              href="/upload-notice"
               className="bg-white border-2 border-slate-200 rounded-2xl py-5 px-4 text-center cursor-pointer transition-all duration-300 ease-in-out no-underline text-inherit hover:border-[#4a90e2] hover:bg-gradient-to-br hover:from-slate-50 hover:to-white hover:-translate-y-px"
             >
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] flex items-center justify-center mx-auto mb-3 text-2xl text-white">

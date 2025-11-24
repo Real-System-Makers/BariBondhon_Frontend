@@ -2,16 +2,51 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createNoticeAction } from "@/lib/actions/notice.actions";
+import { NoticeType } from "@/lib/types/notice";
 
 const UploadNotice = () => {
-  const [selectedType, setSelectedType] = useState("Maintenance");
+  const router = useRouter();
+  const [selectedType, setSelectedType] = useState<NoticeType>(
+    NoticeType.MAINTENANCE
+  );
   const [isUrgent, setIsUrgent] = useState(false);
+  const [title, setTitle] = useState("");
+  const [details, setDetails] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      const result = await createNoticeAction({
+        title,
+        details,
+        type: selectedType,
+        isUrgent,
+      });
+
+      if (result.success) {
+        router.push("/owner-home");
+      } else {
+        setError(result.error || "Failed to create notice");
+      }
+    } catch (err: any) {
+      setError(err.message || "An error occurred");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full">
       <div className="bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] pt-[50px] px-6 pb-5 text-white flex items-center gap-4">
         <Link
-          href="/"
+          href="/owner-home"
           className="w-10 h-10 border-2 border-white/30 rounded-xl bg-white/10 text-white flex items-center justify-center cursor-pointer text-lg transition-all duration-300 hover:bg-white/20 no-underline"
         >
           ←
@@ -20,7 +55,12 @@ const UploadNotice = () => {
       </div>
 
       <div className="p-6 flex-1 overflow-y-auto">
-        <form id="notice-form">
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border-2 border-red-200 rounded-xl text-red-700 text-sm">
+            {error}
+          </div>
+        )}
+        <form id="notice-form" onSubmit={handleSubmit}>
           <div className="mb-6">
             <label
               htmlFor="notice-title"
@@ -31,6 +71,8 @@ const UploadNotice = () => {
             <input
               type="text"
               id="notice-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-base text-gray-700 transition-all duration-300 font-inherit focus:outline-none focus:border-[#4a90e2] focus:bg-white focus:ring-[3px] focus:ring-[#4a90e2]/10"
               placeholder="e.g., Lift Maintenance Schedule"
               required
@@ -46,6 +88,8 @@ const UploadNotice = () => {
             </label>
             <textarea
               id="notice-details"
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
               className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-base text-gray-700 transition-all duration-300 font-inherit focus:outline-none focus:border-[#4a90e2] focus:bg-white focus:ring-[3px] focus:ring-[#4a90e2]/10 min-h-[120px] resize-y"
               placeholder="Write the full notice content here..."
               required
@@ -59,45 +103,45 @@ const UploadNotice = () => {
             <div className="flex gap-2 flex-wrap">
               <div
                 className={`rounded-[20px] px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-300 ${
-                  selectedType === "Maintenance"
+                  selectedType === NoticeType.MAINTENANCE
                     ? "bg-[#4a90e2] border-2 border-[#4a90e2] text-white"
                     : "bg-slate-100 border-2 border-slate-200 text-slate-500"
                 }`}
                 data-type="Maintenance"
-                onClick={() => setSelectedType("Maintenance")}
+                onClick={() => setSelectedType(NoticeType.MAINTENANCE)}
               >
                 Maintenance
               </div>
               <div
                 className={`rounded-[20px] px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-300 ${
-                  selectedType === "Urgent"
+                  selectedType === NoticeType.URGENT
                     ? "bg-[#4a90e2] border-2 border-[#4a90e2] text-white"
                     : "bg-slate-100 border-2 border-slate-200 text-slate-500"
                 }`}
                 data-type="Urgent"
-                onClick={() => setSelectedType("Urgent")}
+                onClick={() => setSelectedType(NoticeType.URGENT)}
               >
                 Urgent
               </div>
               <div
                 className={`rounded-[20px] px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-300 ${
-                  selectedType === "Information"
+                  selectedType === NoticeType.INFORMATION
                     ? "bg-[#4a90e2] border-2 border-[#4a90e2] text-white"
                     : "bg-slate-100 border-2 border-slate-200 text-slate-500"
                 }`}
                 data-type="Information"
-                onClick={() => setSelectedType("Information")}
+                onClick={() => setSelectedType(NoticeType.INFORMATION)}
               >
                 Information
               </div>
               <div
                 className={`rounded-[20px] px-4 py-2 text-sm font-medium cursor-pointer transition-all duration-300 ${
-                  selectedType === "Meeting"
+                  selectedType === NoticeType.MEETING
                     ? "bg-[#4a90e2] border-2 border-[#4a90e2] text-white"
                     : "bg-slate-100 border-2 border-slate-200 text-slate-500"
                 }`}
                 data-type="Meeting"
-                onClick={() => setSelectedType("Meeting")}
+                onClick={() => setSelectedType(NoticeType.MEETING)}
               >
                 Meeting
               </div>
@@ -135,29 +179,12 @@ const UploadNotice = () => {
             </div>
           </div>
 
-          <div className="mb-6">
-            <label className="block text-base font-semibold text-slate-800 mb-3">
-              Attach File (Optional)
-            </label>
-            <label
-              htmlFor="file-upload"
-              className="flex items-center justify-center gap-2 border-2 border-dashed border-slate-200 rounded-xl py-6 text-center cursor-pointer transition-all duration-300 hover:border-[#4a90e2] hover:bg-slate-50"
-            >
-              <span
-                id="file-upload-text"
-                className="text-sm text-slate-500 font-medium"
-              >
-                📎 Click to upload a file
-              </span>
-            </label>
-            <input type="file" id="file-upload" className="hidden" />
-          </div>
-
           <button
             type="submit"
-            className="w-full bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] border-none rounded-xl py-4 text-white text-base font-bold cursor-pointer transition-all duration-300 shadow-[0_8px_30px_rgba(74,144,226,0.3)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(74,144,226,0.4)]"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] border-none rounded-xl py-4 text-white text-base font-bold cursor-pointer transition-all duration-300 shadow-[0_8px_30px_rgba(74,144,226,0.3)] hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(74,144,226,0.4)] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Post Notice
+            {isSubmitting ? "Posting..." : "Post Notice"}
           </button>
         </form>
       </div>
