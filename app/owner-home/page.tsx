@@ -211,9 +211,6 @@ const OwnerHome = () => {
               <div className="text-sm font-semibold text-slate-800">
                 View Complaints
               </div>
-              <div className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold py-0.5 px-1.5 rounded-lg min-w-4 text-center">
-                5
-              </div>
             </Link>
             <Link
               href="/flat-management"

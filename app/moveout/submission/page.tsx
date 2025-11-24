@@ -6,7 +6,7 @@ const MoveOutSubmission = () => {
       <div className="flex flex-col h-full">
         <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 pt-[50px] px-6 pb-5 text-white flex items-center gap-4 flex-shrink-0">
           <Link
-            href="/"
+            href="/tenant-home"
             className="w-10 h-10 border-2 border-white/30 rounded-xl bg-white/10 text-white flex items-center justify-center cursor-pointer text-lg no-underline hover:bg-white/20 transition-all duration-300"
           >
             ←

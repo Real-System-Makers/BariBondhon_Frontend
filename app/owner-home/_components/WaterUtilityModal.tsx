@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateHouseAction } from "@/lib/actions/house.actions";
 
 interface WaterUtilityModalProps {
@@ -18,6 +18,12 @@ export default function WaterUtilityModal({
 }: WaterUtilityModalProps) {
   const [waterBill, setWaterBill] = useState(currentValue.toString());
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setWaterBill(currentValue.toString());
+    }
+  }, [isOpen, currentValue]);
 
   if (!isOpen) return null;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { updateHouseAction } from "@/lib/actions/house.actions";
 
 interface GasUtilityModalProps {
@@ -18,6 +18,12 @@ export default function GasUtilityModal({
 }: GasUtilityModalProps) {
   const [gasBill, setGasBill] = useState(currentValue.toString());
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setGasBill(currentValue.toString());
+    }
+  }, [isOpen, currentValue]);
 
   if (!isOpen) return null;
 
