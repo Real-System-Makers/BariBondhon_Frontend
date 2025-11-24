@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getFlatsAction, batchUpdateElectricityAction } from "@/lib/actions/flat.actions";
+import {
+  getFlatsAction,
+  batchUpdateElectricityAction,
+} from "@/lib/actions/flat.actions";
 import { Flat } from "@/lib/types/flat";
 
 const ElectricityEntry = () => {
@@ -30,7 +33,8 @@ const ElectricityEntry = () => {
   };
 
   const calculateConsumption = (flat: Flat): number => {
-    const currentReading = readings[flat._id] || flat.currentElectricityReading || 0;
+    const currentReading =
+      readings[flat._id] || flat.currentElectricityReading || 0;
     const previousReading = flat.currentElectricityReading || 0;
     return Math.max(0, currentReading - previousReading);
   };
@@ -48,7 +52,7 @@ const ElectricityEntry = () => {
     try {
       const updates = Object.entries(readings)
         .filter(([flatId, reading]) => {
-          const flat = flats.find(f => f._id === flatId);
+          const flat = flats.find((f) => f._id === flatId);
           return flat && reading > (flat.currentElectricityReading || 0);
         })
         .map(([flatId, currentReading]) => ({
@@ -57,7 +61,9 @@ const ElectricityEntry = () => {
         }));
 
       if (updates.length === 0) {
-        alert("Please enter new readings that are higher than current readings");
+        alert(
+          "Please enter new readings that are higher than current readings"
+        );
         setSubmitting(false);
         return;
       }
@@ -68,8 +74,6 @@ const ElectricityEntry = () => {
         alert(
           `Updated ${result.updated} flats. Failed to update ${result.failed.length} flats.`
         );
-      } else {
-        alert(`Successfully updated ${result.updated} flats!`);
       }
 
       router.push("/owner-home");
