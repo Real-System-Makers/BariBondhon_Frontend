@@ -11,7 +11,12 @@ interface RentOverviewModalProps {
   year: number;
 }
 
-const RentOverviewModal = ({ isOpen, onClose, month, year }: RentOverviewModalProps) => {
+const RentOverviewModal = ({
+  isOpen,
+  onClose,
+  month,
+  year,
+}: RentOverviewModalProps) => {
   const [rents, setRents] = useState<Rent[]>([]);
   const [filter, setFilter] = useState<"all" | RentStatus>("all");
   const [loading, setLoading] = useState(false);
@@ -56,7 +61,9 @@ const RentOverviewModal = ({ isOpen, onClose, month, year }: RentOverviewModalPr
         {/* Header */}
         <div className="p-6 border-b border-slate-200">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-slate-800">Rent Overview - {month}</h2>
+            <h2 className="text-xl font-bold text-slate-800">
+              Rent Overview - {month}
+            </h2>
             <button
               onClick={onClose}
               className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition"
@@ -64,7 +71,7 @@ const RentOverviewModal = ({ isOpen, onClose, month, year }: RentOverviewModalPr
               ✕
             </button>
           </div>
-          
+
           {/* Filters */}
           <div className="flex gap-2 overflow-x-auto">
             <button
@@ -95,7 +102,8 @@ const RentOverviewModal = ({ isOpen, onClose, month, year }: RentOverviewModalPr
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
-              Pending ({rents.filter((r) => r.status === RentStatus.PENDING).length})
+              Pending (
+              {rents.filter((r) => r.status === RentStatus.PENDING).length})
             </button>
             <button
               onClick={() => setFilter(RentStatus.OVERDUE)}
@@ -105,7 +113,8 @@ const RentOverviewModal = ({ isOpen, onClose, month, year }: RentOverviewModalPr
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
-              Overdue ({rents.filter((r) => r.status === RentStatus.OVERDUE).length})
+              Overdue (
+              {rents.filter((r) => r.status === RentStatus.OVERDUE).length})
             </button>
           </div>
         </div>
@@ -115,7 +124,9 @@ const RentOverviewModal = ({ isOpen, onClose, month, year }: RentOverviewModalPr
           {loading ? (
             <div className="text-center py-8 text-slate-500">Loading...</div>
           ) : filteredRents.length === 0 ? (
-            <div className="text-center py-8 text-slate-500">No rents found</div>
+            <div className="text-center py-8 text-slate-500">
+              No rents found
+            </div>
           ) : (
             <div className="space-y-3">
               {filteredRents.map((rent) => (
@@ -141,22 +152,38 @@ const RentOverviewModal = ({ isOpen, onClose, month, year }: RentOverviewModalPr
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                      <span className="text-slate-500">Base Rent:</span>
-                      <span className="ml-2 font-semibold">৳{rent.baseRent.toLocaleString()}</span>
+                  <div className="space-y-2 mb-3">
+                    <div className="flex justify-between items-center py-2 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium">
+                        Base Rent
+                      </span>
+                      <span className="text-slate-900 font-semibold">
+                        ৳{rent.baseRent.toLocaleString()}
+                      </span>
                     </div>
-                    <div>
-                      <span className="text-slate-500">Electricity:</span>
-                      <span className="ml-2 font-semibold">৳{rent.electricityBill.toLocaleString()}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium flex items-center gap-2">
+                        <span>⚡</span> Electricity
+                      </span>
+                      <span className="text-slate-900 font-semibold">
+                        ৳{rent.electricityBill.toLocaleString()}
+                      </span>
                     </div>
-                    <div>
-                      <span className="text-slate-500">Water:</span>
-                      <span className="ml-2 font-semibold">৳{rent.waterBill.toLocaleString()}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium flex items-center gap-2">
+                        <span>💧</span> Water
+                      </span>
+                      <span className="text-slate-900 font-semibold">
+                        ৳{rent.waterBill.toLocaleString()}
+                      </span>
                     </div>
-                    <div>
-                      <span className="text-slate-500">Gas:</span>
-                      <span className="ml-2 font-semibold">৳{rent.gasBill.toLocaleString()}</span>
+                    <div className="flex justify-between items-center py-2 border-b border-slate-200">
+                      <span className="text-slate-700 font-medium flex items-center gap-2">
+                        <span>🔥</span> Gas
+                      </span>
+                      <span className="text-slate-900 font-semibold">
+                        ৳{rent.gasBill.toLocaleString()}
+                      </span>
                     </div>
                   </div>
 
