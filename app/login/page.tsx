@@ -67,14 +67,16 @@ const Login = () => {
 
       <div className="h-full flex flex-col relative z-10">
         <div className="text-center mb-10 animate-[fadeInUp_0.6s_ease_forwards]">
-          <div
-            className="w-[70px] h-[70px] rounded-[20px] mx-auto mb-5 flex items-center justify-center text-[28px] font-bold text-white shadow-primary"
-            style={{
-              background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
-            }}
-          >
-            <Image src="/logo.png" alt="BariBondhon" width={70} height={70} />
-          </div>
+          <Link href="/">
+            <div
+              className="w-[70px] h-[70px] rounded-[20px] mx-auto mb-5 flex items-center justify-center text-[28px] font-bold text-white shadow-primary cursor-pointer transition-opacity hover:opacity-90"
+              style={{
+                background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
+              }}
+            >
+              <Image src="/logo.png" alt="BariBondhon" width={70} height={70} />
+            </div>
+          </Link>
           <h1 className="text-[28px] font-bold text-slate-800 mb-2">
             BariBondhon
           </h1>

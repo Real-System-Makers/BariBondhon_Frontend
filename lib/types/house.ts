@@ -1,8 +1,19 @@
+export enum BillingSystem {
+  PREPAID = 'prepaid',
+  POSTPAID = 'postpaid',
+}
+
 export interface House {
   _id: string;
   waterBill: number;
   gasBill: number;
   user: string;
+  division?: string;
+  district?: string;
+  policeStation?: string;
+  address?: string;
+  billingSystem: BillingSystem;
+  registrationNumber?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -10,4 +21,10 @@ export interface House {
 export interface UpdateHouseDto {
   waterBill?: number;
   gasBill?: number;
+  division?: string;
+  district?: string;
+  policeStation?: string;
+  address?: string;
+  billingSystem?: BillingSystem;
+  registrationNumber?: string;
 }

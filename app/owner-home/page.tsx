@@ -53,7 +53,7 @@ const OwnerHome = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <OwnerInfo />
+      <OwnerInfo house={house} />
 
       <div className="p-5 px-6 flex-1 overflow-y-auto">
         <div className="flex items-center justify-between mb-4">

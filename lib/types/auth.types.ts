@@ -1,4 +1,5 @@
 import { Role } from "../constants/role";
+import { House } from "./house";
 
 export interface User {
   _id: string;
@@ -15,7 +16,8 @@ export interface User {
     _id: string;
     name: string;
     email: string;
-    address: string;
+    address?: string;
+    house?: House;
   };
 }
 
@@ -30,7 +32,6 @@ export interface SignUpData {
   email: string;
   password: string;
   confirmPassword: string;
-  address: string;
   phone: string;
   role: Role;
 }

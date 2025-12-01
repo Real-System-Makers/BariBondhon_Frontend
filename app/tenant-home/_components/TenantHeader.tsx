@@ -4,16 +4,21 @@ import { useCurrentUser } from "@/lib/hooks/useCurrentUser";
 
 const TenantHeader = () => {
   const { user } = useCurrentUser();
-  console.log(user);
+  
+  const ownerAddress = user?.owner?.house?.address || user?.owner?.address;
+  const address = user?.address || ownerAddress;
+  
   return (
     <div className="bg-gradient-to-br from-[#10b981] to-[#059669] pt-[50px] px-6 pb-[30px] text-white relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[30px] after:bg-white after:rounded-t-[30px]">
       <div className="relative z-[2]">
         <div>
           <div className="text-base opacity-90 mb-1">Welcome back,</div>
           <div className="text-2xl font-bold mb-2">{user?.name}</div>
-          <div className="text-sm opacity-85">
-            {user?.flat?.name} • {user?.address || user?.owner?.address}
-          </div>
+          {address && (
+            <div className="text-sm opacity-85">
+              {user?.flat?.name} • {address}
+            </div>
+          )}
         </div>
       </div>
     </div>

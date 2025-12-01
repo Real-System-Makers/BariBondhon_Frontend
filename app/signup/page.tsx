@@ -30,7 +30,6 @@ const SignUp = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      address: "",
       phone: "",
     },
   });
@@ -48,7 +47,7 @@ const SignUp = () => {
 
       if (response.success && response.data) {
         setUser(response.data);
-        router.push("/owner-home");
+        router.push("/house-settings");
       } else {
         setError(response.error || "Signup failed. Please try again.");
       }
@@ -63,14 +62,16 @@ const SignUp = () => {
 
       <div className="h-full flex flex-col relative z-10">
         <div className="text-center mb-10 animate-[fadeInUp_0.6s_ease_forwards]">
-          <div
-            className="w-[70px] h-[70px] rounded-[20px] mx-auto mb-5 flex items-center justify-center text-[28px] font-bold text-white shadow-primary"
-            style={{
-              background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
-            }}
-          >
-            <Image src="/logo.png" alt="BariBondhon" width={70} height={70} />
-          </div>
+          <Link href="/">
+            <div
+              className="w-[70px] h-[70px] rounded-[20px] mx-auto mb-5 flex items-center justify-center text-[28px] font-bold text-white shadow-primary cursor-pointer transition-opacity hover:opacity-90"
+              style={{
+                background: "linear-gradient(135deg, #4a90e2, #50e3c2)",
+              }}
+            >
+              <Image src="/logo.png" alt="BariBondhon" width={70} height={70} />
+            </div>
+          </Link>
           <h1 className="text-[28px] font-bold text-slate-800 mb-2">
             Create Account
           </h1>
@@ -155,24 +156,6 @@ const SignUp = () => {
                 fill="currentColor"
               >
                 <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
-              </svg>
-            }
-          />
-
-          <FormInput
-            name="address"
-            control={control}
-            type="text"
-            placeholder="Address"
-            disabled={isSubmitting}
-            error={errors.address}
-            icon={
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
             }
           />
