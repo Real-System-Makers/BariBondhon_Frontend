@@ -9,7 +9,7 @@ import {
   houseSettingsSchema,
   HouseSettingsFormData,
 } from "@/lib/schemas/house.schemas";
-import { FormInput, FormSelect, FormToggle } from "@/lib/components/forms";
+import { FormInput, FormSelect, FormCardSelect } from "@/lib/components/forms";
 import { BD_DIVISIONS, BD_DISTRICTS } from "@/lib/constants/bd-locations";
 import { BillingSystem } from "@/lib/types/house";
 import Image from "next/image";
@@ -185,12 +185,25 @@ const HouseSettings = () => {
             }
           />
 
-          <FormToggle
+          <FormCardSelect
             name="billingSystem"
             control={control}
-            label="Billing System"
             disabled={isSubmitting}
             error={errors.billingSystem}
+            options={[
+              {
+                value: BillingSystem.PREPAID,
+                label: "Prepaid",
+                description: "Pay before using utilities",
+                icon: "💳",
+              },
+              {
+                value: BillingSystem.POSTPAID,
+                label: "Postpaid",
+                description: "Pay after using utilities",
+                icon: "📅",
+              },
+            ]}
           />
 
           <FormInput
