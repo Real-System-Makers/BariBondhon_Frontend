@@ -11,6 +11,8 @@ import { House } from "@/lib/types/house";
 import WaterUtilityModal from "./_components/WaterUtilityModal";
 import GasUtilityModal from "./_components/GasUtilityModal";
 import RentOverviewModal from "./_components/RentOverviewModal";
+import NoticePeriodModal from "./_components/NoticePeriodModal";
+import { getOwnerMoveOutRequestsAction } from "@/lib/actions/move-out.actions";
 
 const OwnerHome = () => {
   const router = useRouter();
@@ -20,8 +22,10 @@ const OwnerHome = () => {
   const [isWaterModalOpen, setIsWaterModalOpen] = useState(false);
   const [isGasModalOpen, setIsGasModalOpen] = useState(false);
   const [isRentOverviewOpen, setIsRentOverviewOpen] = useState(false);
+  const [isNoticePeriodModalOpen, setIsNoticePeriodModalOpen] = useState(false);
   const [currentMonth, setCurrentMonth] = useState("");
   const [currentYear, setCurrentYear] = useState(0);
+  const [pendingMoveOutCount, setPendingMoveOutCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,10 +38,14 @@ const OwnerHome = () => {
       setCurrentMonth(month);
       setCurrentYear(year);
 
-      const [statsData, houseData] = await Promise.all([
+      const [statsData, houseData, moveOutRequests] = await Promise.all([
         getMonthlyStatsAction(month, year),
         getHouseAction(),
+        getOwnerMoveOutRequestsAction(),
       ]);
+
+      const pendingCount = (moveOutRequests || []).filter((r: any) => r.status === 'PENDING').length;
+      setPendingMoveOutCount(pendingCount);
 
       setStats(statsData);
       setHouse(houseData);
@@ -223,6 +231,34 @@ const OwnerHome = () => {
                 Flat Management
               </div>
             </Link>
+            <div
+              onClick={() => setIsNoticePeriodModalOpen(true)}
+              className="bg-white border-2 border-slate-200 rounded-2xl py-5 px-4 text-center cursor-pointer transition-all duration-300 ease-in-out hover:border-[#4a90e2] hover:bg-gradient-to-br hover:from-slate-50 hover:to-white hover:-translate-y-px"
+            >
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center mx-auto mb-3 text-2xl text-white">
+                📆
+              </div>
+              <div className="text-sm font-semibold text-slate-800">
+                Notice Period
+              </div>
+            </div>
+
+            <Link
+              href="/owner-home/move-out-requests"
+              className="bg-white border-2 border-slate-200 rounded-2xl py-5 px-4 text-center cursor-pointer transition-all duration-300 ease-in-out no-underline text-inherit hover:border-[#4a90e2] hover:bg-gradient-to-br hover:from-slate-50 hover:to-white hover:-translate-y-px relative"
+            >
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center mx-auto mb-3 text-2xl text-white">
+                🚶
+              </div>
+              <div className="text-sm font-semibold text-slate-800">
+                Move Out Req
+              </div>
+              {pendingMoveOutCount > 0 && (
+                <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full animate-bounce">
+                  {pendingMoveOutCount}
+                </div>
+              )}
+            </Link>
           </div>
         </div>
       </div>
@@ -246,6 +282,11 @@ const OwnerHome = () => {
         onClose={() => setIsRentOverviewOpen(false)}
         month={currentMonth}
         year={currentYear}
+      />
+
+      <NoticePeriodModal
+        isOpen={isNoticePeriodModalOpen}
+        onClose={() => setIsNoticePeriodModalOpen(false)}
       />
     </div>
   );
