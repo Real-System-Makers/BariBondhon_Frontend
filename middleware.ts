@@ -7,7 +7,6 @@ const protectedRoutes = [
   "/tenant-home",
   "/flat-management",
   "/tenant-management",
-  "/tolet",
   "/upload-notice",
   "/electrcity-entry",
   "/complain",

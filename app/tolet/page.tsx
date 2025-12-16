@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { getPublicVacantFlatsAction } from "@/lib/actions/flat.actions";
 import { Flat } from "@/lib/types/flat";
@@ -64,10 +66,26 @@ const Tolet = () => {
         </div>
       </div>
 
-      <div className="px-6 pb-4 flex-shrink-0">
+      <div className="px-6 pb-4 flex-shrink-0 flex justify-between items-center">
         <div className="text-base font-semibold text-[#1f2937]">
           {loading ? "Loading..." : `${flats.length} properties found`}
         </div>
+        <button
+          onClick={async () => {
+            setLoading(true);
+            const { syncToLetAction } = await import("@/lib/actions/flat.actions");
+            const res = await syncToLetAction();
+            console.log('Sync Result:', res);
+            const { getPublicVacantFlatsAction } = await import("@/lib/actions/flat.actions");
+            const data = await getPublicVacantFlatsAction();
+            setFlats(data);
+            setLoading(false);
+            alert(`Synced! Found ${res?.stats?.vacant || 0} vacant, ${res?.stats?.upcoming || 0} upcoming in DB: ${res?.db}`);
+          }}
+          className="px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-semibold hover:bg-indigo-600 transition-colors"
+        >
+          ↻ Refresh Data
+        </button>
       </div>
 
       <div className="px-6 flex-1 overflow-y-auto scrollbar-thin pb-5">
@@ -85,8 +103,8 @@ const Tolet = () => {
           >
             <div className="relative h-[200px] bg-gradient-to-br from-[#f0f9ff] to-[#e0f2fe] flex items-center justify-center text-5xl text-[#0ea5e9] overflow-hidden">
               🏢
-              <div className="absolute top-4 left-4 bg-[#10b981] text-white px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1">
-                ✓ Verified Owner
+              <div className={`absolute top-4 left-4 text-white px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 ${flat.status === 'Vacant' ? 'bg-[#10b981]' : 'bg-orange-500'}`}>
+                {flat.availabilityStatus || (flat.status === 'Vacant' ? 'Vacant' : 'Verified Owner')}
               </div>
             </div>
             <div className="p-5">

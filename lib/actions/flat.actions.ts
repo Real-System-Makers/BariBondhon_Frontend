@@ -15,10 +15,19 @@ export async function getFlatsAction(): Promise<Flat[]> {
 
 export async function getPublicVacantFlatsAction(): Promise<Flat[]> {
   try {
-    return await ApiClient.get<Flat[]>("/flats/public/vacant");
+    return await ApiClient.get<Flat[]>("/to-let");
   } catch (error) {
     console.error("Failed to fetch public vacant flats:", error);
     return [];
+  }
+}
+
+export async function syncToLetAction() {
+  try {
+    return await ApiClient.post("/to-let/sync", {});
+  } catch (error) {
+    console.error("Failed to sync to-let:", error);
+    return null;
   }
 }
 

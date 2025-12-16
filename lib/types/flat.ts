@@ -22,6 +22,9 @@ export interface Flat {
   currentElectricityReading?: number;
   electricityRatePerUnit?: number;
   lastElectricityUpdateDate?: string;
+  // To-Let specific fields
+  availabilityStatus?: string;
+  isAvailable?: boolean;
 }
 
 export interface CreateFlatDto {
