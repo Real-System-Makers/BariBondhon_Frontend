@@ -17,7 +17,7 @@ const MoveOutModal = ({ isOpen, onClose, activeRequestStatus }: MoveOutModalProp
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [minMonthStr, setMinMonthStr] = useState("");
-  
+
   useEffect(() => {
     if (isOpen) {
       initialize();
@@ -33,11 +33,11 @@ const MoveOutModal = ({ isOpen, onClose, activeRequestStatus }: MoveOutModalProp
     // Calculate Min Month
     const now = new Date();
     const day = now.getDate();
-    
+
     // Start count logic
     // If <= 7th, include current month. So start = now
     // If > 7th, exclude current month. So start = next month
-    let startMonth = new Date(now.getFullYear(), now.getMonth(), 1); 
+    let startMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     if (day > 7) {
       startMonth.setMonth(startMonth.getMonth() + 1);
     }
@@ -51,25 +51,25 @@ const MoveOutModal = ({ isOpen, onClose, activeRequestStatus }: MoveOutModalProp
     // Prompt says: "total notice peiord will include the current monty"
     // So if Notice = 1. Submit Dec 5 -> Includes Dec. Notice fulfilled by End of Dec.
     // If Notice = 2. Submit Dec 5 -> Includes Dec, Jan. Move out End of Jan. 
-    
+
     // Logic:
     // Count = noticePeriod
     // StartMonth = Dec (if <= 7th)
-    // TargetMonth = StartMonth + (Count - 1) months.
-    // e.g. Count=1. Start=Dec. Target=Dec + 0 = Dec.
-    // e.g. Count=2. Start=Dec. Target=Dec + 1 = Jan.
-    
+    // TargetMonth = StartMonth + Count months.
+    // e.g. Count=1. Start=Dec. Target=Dec + 1 = Jan.
+    // e.g. Count=2. Start=Dec. Target=Dec + 2 = Feb.
+
     const targetDate = new Date(startMonth);
-    targetDate.setMonth(targetDate.getMonth() + (period - 1));
-    
+    targetDate.setMonth(targetDate.getMonth() + period);
+
     const yyyy = targetDate.getFullYear();
     const mm = String(targetDate.getMonth() + 1).padStart(2, '0');
     const minStr = `${yyyy}-${mm}`;
     setMinMonthStr(minStr);
-    
+
     // Default select min
     setSelectedMonth(minStr);
-    
+
     setIsLoading(false);
   };
 
@@ -95,114 +95,114 @@ const MoveOutModal = ({ isOpen, onClose, activeRequestStatus }: MoveOutModalProp
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-      <div 
+      <div
         className="bg-white rounded-[24px] w-full max-w-md shadow-2xl relative overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6">
           {activeRequestStatus ? (
-             <div className="text-center py-6">
-               <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
-                 ℹ️
-               </div>
-               <h2 className="text-2xl font-bold text-slate-800 mb-2">
-                 Active Request Found
-               </h2>
-               <p className="text-slate-500 mb-6">
-                 You already have a move-out request with status: 
-                 <span className={`font-bold ml-1 ${activeRequestStatus.status === 'APPROVED' ? 'text-green-600' : 'text-amber-500'}`}>
-                   {activeRequestStatus.status}
-                 </span>
-               </p>
-               
-               <div className="bg-slate-50 p-4 rounded-xl text-left border border-slate-100 mb-6">
-                 <div className="mb-2 text-sm text-slate-600">
-                   <strong>Requested Month:</strong> {new Date(activeRequestStatus.moveOutMonth).toLocaleDateString('default', { month: 'long', year: 'numeric' })}
-                 </div>
-                 {activeRequestStatus.note && (
-                   <div className="text-sm text-slate-600">
-                     <strong>Note:</strong> {activeRequestStatus.note}
-                   </div>
-                 )}
-               </div>
-
-               <button
-                 onClick={onClose}
-                 className="w-full px-4 py-3 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition"
-               >
-                 Close
-               </button>
-             </div>
-          ) : (
-          <>
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-800">
-              Move Out Request
-            </h2>
-            <p className="text-slate-500 mt-1">
-              Submit your notice to vacate the flat.
-            </p>
-          </div>
-
-          {isLoading ? (
-            <div className="animate-pulse space-y-4">
-              <div className="h-10 bg-slate-100 rounded-xl" />
-            </div>
-          ) : (
-            <div className="space-y-4">
-               
-              <div className="bg-blue-50 text-blue-800 p-4 rounded-xl text-sm border border-blue-100 mb-4">
-                <strong>Notice Period:</strong> {noticePeriod} month(s).<br/>
-                Based on today's date, the earliest you can move out is: 
-                <span className="font-bold ml-1">
-                   {new Date(minMonthStr + '-01').toLocaleDateString('default', { month: 'long', year: 'numeric' })}
+            <div className="text-center py-6">
+              <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                ℹ️
+              </div>
+              <h2 className="text-2xl font-bold text-slate-800 mb-2">
+                Active Request Found
+              </h2>
+              <p className="text-slate-500 mb-6">
+                You already have a move-out request with status:
+                <span className={`font-bold ml-1 ${activeRequestStatus.status === 'APPROVED' ? 'text-green-600' : 'text-amber-500'}`}>
+                  {activeRequestStatus.status}
                 </span>
+              </p>
+
+              <div className="bg-slate-50 p-4 rounded-xl text-left border border-slate-100 mb-6">
+                <div className="mb-2 text-sm text-slate-600">
+                  <strong>Requested Month:</strong> {new Date(activeRequestStatus.moveOutMonth).toLocaleDateString('default', { month: 'long', year: 'numeric' })}
+                </div>
+                {activeRequestStatus.note && (
+                  <div className="text-sm text-slate-600">
+                    <strong>Note:</strong> {activeRequestStatus.note}
+                  </div>
+                )}
               </div>
 
-              <div>
-                <MonthPicker 
-                    label="Select Move Out Month"
-                    selectedMonth={selectedMonth}
-                    minMonth={minMonthStr}
-                    onChange={setSelectedMonth}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Note (Optional / Emergency)
-                </label>
-                <textarea
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  placeholder="If you have an emergency or special request, please explain here..."
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition h-32 resize-none"
-                />
-                <p className="text-xs text-slate-400 mt-2">
-                  If you need to leave earlier than the allowed date, select the earliest date above and explain your emergency here. The owner may review and adjust logic.
-                </p>
-              </div>
-            </div>
-          )}
-
-            <div className="flex gap-3 mt-8">
               <button
                 onClick={onClose}
-                className="flex-1 px-4 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition"
-                disabled={isSubmitting}
+                className="w-full px-4 py-3 rounded-xl bg-slate-100 text-slate-600 font-semibold hover:bg-slate-200 transition"
               >
-                Cancel
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-[#4a90e2] to-[#50e3c2] text-white font-semibold shadow-lg shadow-blue-500/20 hover:shadow-xl hover:-translate-y-0.5 transition disabled:opacity-50"
-                disabled={isSubmitting || !selectedMonth}
-              >
-                {isSubmitting ? "Submitting..." : "Submit Request"}
+                Close
               </button>
             </div>
+          ) : (
+            <>
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold text-slate-800">
+                  Move Out Request
+                </h2>
+                <p className="text-slate-500 mt-1">
+                  Submit your notice to vacate the flat.
+                </p>
+              </div>
+
+              {isLoading ? (
+                <div className="animate-pulse space-y-4">
+                  <div className="h-10 bg-slate-100 rounded-xl" />
+                </div>
+              ) : (
+                <div className="space-y-4">
+
+                  <div className="bg-blue-50 text-blue-800 p-4 rounded-xl text-sm border border-blue-100 mb-4">
+                    <strong>Notice Period:</strong> {noticePeriod} month(s).<br />
+                    Based on today's date, the earliest you can move out is:
+                    <span className="font-bold ml-1">
+                      {new Date(minMonthStr + '-01').toLocaleDateString('default', { month: 'long', year: 'numeric' })}
+                    </span>
+                  </div>
+
+                  <div>
+                    <MonthPicker
+                      label="Select Move Out Month"
+                      selectedMonth={selectedMonth}
+                      minMonth={minMonthStr}
+                      onChange={setSelectedMonth}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Note (Optional / Emergency)
+                    </label>
+                    <textarea
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      placeholder="If you have an emergency or special request, please explain here..."
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition h-32 resize-none"
+                    />
+                    <p className="text-xs text-slate-400 mt-2">
+                      If you need to leave earlier than the allowed date, select the earliest date above and explain your emergency here. The owner may review and adjust logic.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-3 mt-8">
+                <button
+                  onClick={onClose}
+                  className="flex-1 px-4 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition"
+                  disabled={isSubmitting}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-[#4a90e2] to-[#50e3c2] text-white font-semibold shadow-lg shadow-blue-500/20 hover:shadow-xl hover:-translate-y-0.5 transition disabled:opacity-50"
+                  disabled={isSubmitting || !selectedMonth}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Request"}
+                </button>
+              </div>
             </>
-          )} 
+          )}
         </div>
       </div>
     </div>

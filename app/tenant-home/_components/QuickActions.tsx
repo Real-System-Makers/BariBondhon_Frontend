@@ -30,7 +30,6 @@ const QuickActions = () => {
         <Link
           href="/complain/issue"
           className="bg-white border-2 border-gray-200 rounded-2xl p-4 text-center cursor-pointer transition-all duration-300 no-underline text-inherit hover:border-[#10b981] hover:bg-[#f0fdf4] hover:-translate-y-0.5"
-          target="_blank"
         >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#10b981] to-[#059669] flex items-center justify-center mx-auto mb-3 text-xl text-white">
             📞
