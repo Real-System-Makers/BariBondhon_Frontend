@@ -41,3 +41,14 @@ yarn-error.log*
 next-env.d.ts
 
 .env
+
+# Capacitor
+ios/App/Pods
+ios/App/build
+ios/App/Podfile.lock
+android/.gradle
+android/build
+android/app/build
+android/.idea
+android/local.properties
+
