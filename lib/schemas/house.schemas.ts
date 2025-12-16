@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { InferType } from "yup";
-import { BillingSystem } from "../types/house";
+
 
 export const houseSettingsSchema = yup.object().shape({
   division: yup
@@ -17,10 +17,6 @@ export const houseSettingsSchema = yup.object().shape({
     .string()
     .required("Address is required")
     .min(5, "Address must be at least 5 characters"),
-  billingSystem: yup
-    .string()
-    .oneOf([BillingSystem.PREPAID, BillingSystem.POSTPAID], "Invalid billing system")
-    .default(BillingSystem.POSTPAID),
   registrationNumber: yup
     .string()
     .required("Registration number is required")

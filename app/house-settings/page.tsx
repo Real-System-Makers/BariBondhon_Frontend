@@ -11,7 +11,6 @@ import {
 } from "@/lib/schemas/house.schemas";
 import { FormInput, FormSelect, FormCardSelect } from "@/lib/components/forms";
 import { BD_DIVISIONS, BD_DISTRICTS } from "@/lib/constants/bd-locations";
-import { BillingSystem } from "@/lib/types/house";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -36,7 +35,6 @@ const HouseSettings = () => {
       district: "",
       policeStation: "",
       address: "",
-      billingSystem: BillingSystem.POSTPAID,
       registrationNumber: "",
     },
   });
@@ -183,27 +181,6 @@ const HouseSettings = () => {
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
             }
-          />
-
-          <FormCardSelect
-            name="billingSystem"
-            control={control}
-            disabled={isSubmitting}
-            error={errors.billingSystem}
-            options={[
-              {
-                value: BillingSystem.PREPAID,
-                label: "Prepaid",
-                description: "Pay before using utilities",
-                icon: "💳",
-              },
-              {
-                value: BillingSystem.POSTPAID,
-                label: "Postpaid",
-                description: "Pay after using utilities",
-                icon: "📅",
-              },
-            ]}
           />
 
           <FormInput

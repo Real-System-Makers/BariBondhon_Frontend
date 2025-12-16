@@ -13,6 +13,15 @@ export async function getFlatsAction(): Promise<Flat[]> {
   }
 }
 
+export async function getPublicVacantFlatsAction(): Promise<Flat[]> {
+  try {
+    return await ApiClient.get<Flat[]>("/flats/public/vacant");
+  } catch (error) {
+    console.error("Failed to fetch public vacant flats:", error);
+    return [];
+  }
+}
+
 export async function createFlatAction(data: CreateFlatDto): Promise<Flat> {
   try {
     const flat = await ApiClient.post<Flat>("/flats", data);

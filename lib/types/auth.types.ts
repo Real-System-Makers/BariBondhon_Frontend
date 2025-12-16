@@ -19,6 +19,13 @@ export interface User {
     address?: string;
     house?: House;
   };
+  bKashNumber?: string;
+  bankDetails?: {
+    accountName: string;
+    accountNumber: string;
+    bankName: string;
+    branchName: string;
+  };
 }
 
 export interface LoginCredentials {

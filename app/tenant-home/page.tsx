@@ -3,7 +3,7 @@
 import { useState } from "react";
 import TenantHeader from "./_components/TenantHeader";
 import MonthlyRentCard from "./_components/MonthlyRentCard";
-import DigitalReceiptCard from "./_components/DigitalReceiptCard";
+
 import QuickActions from "./_components/QuickActions";
 import NoticesList from "./_components/NoticesList";
 import RentBreakdownModal from "./_components/RentBreakdownModal";
@@ -51,12 +51,12 @@ const TenantHome = () => {
         </div>
 
         <div className="p-5 px-6 pb-[100px] flex-1 overflow-y-auto">
-          <MonthlyRentCard 
-            key={refreshKey} 
-            onOpenModal={() => setIsBreakdownModalOpen(true)} 
+          <MonthlyRentCard
+            key={refreshKey}
+            onOpenModal={() => setIsBreakdownModalOpen(true)}
           />
 
-          <DigitalReceiptCard />
+
 
           <QuickActions />
 

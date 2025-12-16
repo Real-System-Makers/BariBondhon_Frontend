@@ -11,7 +11,7 @@ import { House } from "@/lib/types/house";
 import WaterUtilityModal from "./_components/WaterUtilityModal";
 import GasUtilityModal from "./_components/GasUtilityModal";
 import RentOverviewModal from "./_components/RentOverviewModal";
-import NoticePeriodModal from "./_components/NoticePeriodModal";
+
 import { getOwnerMoveOutRequestsAction } from "@/lib/actions/move-out.actions";
 
 const OwnerHome = () => {
@@ -22,7 +22,7 @@ const OwnerHome = () => {
   const [isWaterModalOpen, setIsWaterModalOpen] = useState(false);
   const [isGasModalOpen, setIsGasModalOpen] = useState(false);
   const [isRentOverviewOpen, setIsRentOverviewOpen] = useState(false);
-  const [isNoticePeriodModalOpen, setIsNoticePeriodModalOpen] = useState(false);
+
   const [currentMonth, setCurrentMonth] = useState("");
   const [currentYear, setCurrentYear] = useState(0);
   const [pendingMoveOutCount, setPendingMoveOutCount] = useState(0);
@@ -122,7 +122,7 @@ const OwnerHome = () => {
                   {(stats?.pendingCount || 0) +
                     (stats?.partialCount || 0) +
                     (stats?.overdueCount || 0) !==
-                  1
+                    1
                     ? "s"
                     : ""}{" "}
                   pending
@@ -231,21 +231,11 @@ const OwnerHome = () => {
                 Flat Management
               </div>
             </Link>
-            <div
-              onClick={() => setIsNoticePeriodModalOpen(true)}
-              className="bg-white border-2 border-slate-200 rounded-2xl py-5 px-4 text-center cursor-pointer transition-all duration-300 ease-in-out hover:border-[#4a90e2] hover:bg-gradient-to-br hover:from-slate-50 hover:to-white hover:-translate-y-px"
-            >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center mx-auto mb-3 text-2xl text-white">
-                📆
-              </div>
-              <div className="text-sm font-semibold text-slate-800">
-                Notice Period
-              </div>
-            </div>
+
 
             <Link
               href="/owner-home/move-out-requests"
-              className="bg-white border-2 border-slate-200 rounded-2xl py-5 px-4 text-center cursor-pointer transition-all duration-300 ease-in-out no-underline text-inherit hover:border-[#4a90e2] hover:bg-gradient-to-br hover:from-slate-50 hover:to-white hover:-translate-y-px relative"
+              className="col-span-2 bg-white border-2 border-slate-200 rounded-2xl py-5 px-4 text-center cursor-pointer transition-all duration-300 ease-in-out no-underline text-inherit hover:border-[#4a90e2] hover:bg-gradient-to-br hover:from-slate-50 hover:to-white hover:-translate-y-px relative"
             >
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center mx-auto mb-3 text-2xl text-white">
                 🚶
@@ -284,10 +274,7 @@ const OwnerHome = () => {
         year={currentYear}
       />
 
-      <NoticePeriodModal
-        isOpen={isNoticePeriodModalOpen}
-        onClose={() => setIsNoticePeriodModalOpen(false)}
-      />
+
     </div>
   );
 };

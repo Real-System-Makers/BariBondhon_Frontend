@@ -11,6 +11,7 @@ interface FormSelectOption {
 interface FormSelectProps {
   name: string;
   control: Control<any>;
+  label?: string;
   placeholder?: string;
   icon?: ReactNode;
   disabled?: boolean;
@@ -21,6 +22,7 @@ interface FormSelectProps {
 export const FormSelect = ({
   name,
   control,
+  label,
   placeholder = "Select an option",
   icon,
   disabled = false,
@@ -29,6 +31,11 @@ export const FormSelect = ({
 }: FormSelectProps) => {
   return (
     <div className="mb-5">
+      {label && (
+        <label className="block text-sm font-medium text-slate-700 mb-2">
+          {label}
+        </label>
+      )}
       <Controller
         name={name}
         control={control}
@@ -41,11 +48,9 @@ export const FormSelect = ({
             )}
             <select
               {...field}
-              className={`w-full h-14 bg-slate-50/80 border-2 ${
-                error ? "border-red-400" : "border-slate-200"
-              } rounded-2xl px-5 ${
-                icon ? "pl-[55px]" : ""
-              } text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed appearance-none`}
+              className={`w-full h-14 bg-slate-50/80 border-2 ${error ? "border-red-400" : "border-slate-200"
+                } rounded-2xl px-5 ${icon ? "pl-[55px]" : ""
+                } text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed appearance-none`}
               disabled={disabled}
             >
               <option value="" disabled>

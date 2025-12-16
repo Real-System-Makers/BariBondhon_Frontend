@@ -82,16 +82,9 @@ const Home = () => {
               <div className="text-xl font-extrabold text-slate-800">
                 {formatNumber(stats.cities)}
               </div>
-              <div className="text-sm text-slate-500 font-medium">Cities</div>
+              <div className="text-sm text-slate-500 font-medium">Districts</div>
             </div>
             <div className="bg-white rounded-[20px] p-5 text-center shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-transform duration-300 hover:-translate-y-1 animate-[popIn_0.5s_ease-out_forwards] [animation-delay:0.4s] opacity-0">
-              <div className="text-[28px] mb-3">🛠️</div>
-              <div className="text-xl font-extrabold text-slate-800">
-                {formatNumber(stats.services)}
-              </div>
-              <div className="text-sm text-slate-500 font-medium">Services</div>
-            </div>
-            <div className="bg-white rounded-[20px] p-5 text-center shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-transform duration-300 hover:-translate-y-1 animate-[popIn_0.5s_ease-out_forwards] [animation-delay:0.5s] opacity-0 col-span-2">
               <div className="text-[28px] mb-3">⭐</div>
               <div className="text-xl font-extrabold text-slate-800">
                 {formatNumber(stats.reviews)}
@@ -107,9 +100,9 @@ const Home = () => {
           <div className="text-xl font-bold text-slate-800 text-center mb-5">
             Get Started
           </div>
-          <a
-            href="#"
-            className="bg-white rounded-[20px] p-5 mb-4 flex items-center gap-4 no-underline text-inherit shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500"
+          <Link
+            href="/signup"
+            className="bg-white rounded-[20px] p-5 mb-4 flex items-center gap-4 no-underline text-inherit shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500 cursor-pointer"
           >
             <div className="w-12 h-12 rounded-xl text-2xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
               🔑
@@ -122,10 +115,10 @@ const Home = () => {
                 Manage your properties, tenants, and bills easily.
               </div>
             </div>
-          </a>
-          <a
-            href="#"
-            className="bg-white rounded-[20px] p-5 mb-4 flex items-center gap-4 no-underline text-inherit shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500"
+          </Link>
+          <Link
+            href="/tolet"
+            className="bg-white rounded-[20px] p-5 mb-4 flex items-center gap-4 no-underline text-inherit shadow-[0_4px_20px_rgba(0,0,0,0.07)] border border-slate-200 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500 cursor-pointer"
           >
             <div className="w-12 h-12 rounded-xl text-2xl flex items-center justify-center flex-shrink-0 bg-slate-100 text-indigo-500">
               🏠
@@ -138,7 +131,7 @@ const Home = () => {
                 Find your perfect rental property today.
               </div>
             </div>
-          </a>
+          </Link>
         </section>
       </main>
     </div>

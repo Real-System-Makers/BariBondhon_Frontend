@@ -11,6 +11,12 @@ export interface Flat {
     name: string;
     email: string;
   };
+  user?: {
+    _id?: string;
+    name: string;
+    phone?: string;
+    email?: string;
+  };
   // Electricity tracking
   previousElectricityReading?: number;
   currentElectricityReading?: number;

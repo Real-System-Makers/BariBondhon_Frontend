@@ -6,6 +6,7 @@ import { ReactNode, useState } from "react";
 interface FormInputProps {
   name: string;
   control: Control<any>;
+  label?: string;
   type?: string;
   placeholder?: string;
   icon?: ReactNode;
@@ -16,6 +17,7 @@ interface FormInputProps {
 export const FormInput = ({
   name,
   control,
+  label,
   type = "text",
   placeholder,
   icon,
@@ -28,6 +30,11 @@ export const FormInput = ({
 
   return (
     <div className="mb-5">
+      {label && (
+        <label className="block text-sm font-medium text-slate-700 mb-2">
+          {label}
+        </label>
+      )}
       <Controller
         name={name}
         control={control}
@@ -41,13 +48,10 @@ export const FormInput = ({
             <input
               {...field}
               type={inputType}
-              className={`w-full h-14 bg-slate-50/80 border-2 ${
-                error ? "border-red-400" : "border-slate-200"
-              } rounded-2xl px-5 ${
-                icon ? "pl-[55px]" : ""
-              } ${
-                isPasswordField ? "pr-[55px]" : ""
-              } text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
+              className={`w-full h-14 bg-slate-50/80 border-2 ${error ? "border-red-400" : "border-slate-200"
+                } rounded-2xl px-5 ${icon ? "pl-[55px]" : ""
+                } ${isPasswordField ? "pr-[55px]" : ""
+                } text-base text-slate-800 outline-none backdrop-blur-sm focus:border-[#4a90e2] focus:bg-white focus:shadow-[0_0_0_3px_rgba(74,144,226,0.15)] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed`}
               placeholder={placeholder}
               disabled={disabled}
             />
