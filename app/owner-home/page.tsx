@@ -66,7 +66,7 @@ const OwnerHome = () => {
       <div className="p-5 px-6 flex-1 overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <div className="text-xl font-bold text-slate-800">
-            Monthly Overview
+            Monthwise Overview
           </div>
           <button
             onClick={() => setIsRentOverviewOpen(true)}

@@ -11,31 +11,96 @@ interface RentOverviewModalProps {
   year: number;
 }
 
+interface MonthGroup {
+  month: string;
+  year: number;
+  displayName: string;
+  count: number;
+}
+
 const RentOverviewModal = ({
   isOpen,
   onClose,
   month,
   year,
 }: RentOverviewModalProps) => {
-  const [rents, setRents] = useState<Rent[]>([]);
+  const [allRents, setAllRents] = useState<Rent[]>([]);
+  const [monthGroups, setMonthGroups] = useState<MonthGroup[]>([]);
+  const [selectedMonth, setSelectedMonth] = useState<string>(month);
+  const [selectedYear, setSelectedYear] = useState<number>(year);
   const [filter, setFilter] = useState<"all" | RentStatus>("all");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
-      fetchRents();
+      fetchAllRents();
     }
-  }, [isOpen, month, year]);
+  }, [isOpen]);
 
-  const fetchRents = async () => {
+  // Update selected month when props change
+  useEffect(() => {
+    setSelectedMonth(month);
+    setSelectedYear(year);
+  }, [month, year]);
+
+  const fetchAllRents = async () => {
     setLoading(true);
-    const data = await getRentsAction({ month, year });
-    setRents(data);
+    // Fetch all rents without month/year filter
+    const data = await getRentsAction({});
+    setAllRents(data);
+    
+    // Group rents by month and year
+    const groups = groupRentsByMonth(data);
+    setMonthGroups(groups);
+    
     setLoading(false);
   };
 
-  const filteredRents = rents.filter((rent) =>
-    filter === "all" ? true : rent.status === filter
+  const groupRentsByMonth = (rents: Rent[]): MonthGroup[] => {
+    const monthMap = new Map<string, { month: string; year: number; count: number }>();
+    
+    rents.forEach((rent) => {
+      const key = `${rent.year}-${rent.month}`;
+      if (monthMap.has(key)) {
+        monthMap.get(key)!.count++;
+      } else {
+        monthMap.set(key, {
+          month: rent.month,
+          year: rent.year,
+          count: 1,
+        });
+      }
+    });
+
+    // Convert to array and sort by year and month (descending)
+    const groups = Array.from(monthMap.values())
+      .map((group) => ({
+        ...group,
+        displayName: formatMonthYear(group.month, group.year),
+      }))
+      .sort((a, b) => {
+        if (a.year !== b.year) return b.year - a.year;
+        return b.month.localeCompare(a.month);
+      });
+
+    return groups;
+  };
+
+  const formatMonthYear = (monthStr: string, yearNum: number): string => {
+    const [year, month] = monthStr.split("-");
+    const date = new Date(parseInt(year), parseInt(month) - 1);
+    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  };
+
+  // Filter rents by selected month and status
+  const filteredRents = allRents.filter((rent) => {
+    const monthMatch = rent.month === selectedMonth && rent.year === selectedYear;
+    const statusMatch = filter === "all" ? true : rent.status === filter;
+    return monthMatch && statusMatch;
+  });
+
+  const currentMonthRents = allRents.filter(
+    (rent) => rent.month === selectedMonth && rent.year === selectedYear
   );
 
   const getStatusColor = (status: RentStatus) => {
@@ -62,7 +127,7 @@ const RentOverviewModal = ({
         <div className="p-6 border-b border-slate-200">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-slate-800">
-              Rent Overview - {month}
+              Monthwise Overview
             </h2>
             <button
               onClick={onClose}
@@ -72,7 +137,42 @@ const RentOverviewModal = ({
             </button>
           </div>
 
-          {/* Filters */}
+          {/* Month Selector */}
+          {monthGroups.length > 0 && (
+            <div className="mb-4">
+              <div className="text-sm font-medium text-slate-600 mb-2">
+                Select Month
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-2">
+                {monthGroups.map((group) => (
+                  <button
+                    key={`${group.year}-${group.month}`}
+                    onClick={() => {
+                      setSelectedMonth(group.month);
+                      setSelectedYear(group.year);
+                      setFilter("all");
+                    }}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition whitespace-nowrap flex items-center gap-2 ${
+                      selectedMonth === group.month && selectedYear === group.year
+                        ? "bg-gradient-to-br from-[#4a90e2] to-[#50e3c2] text-white shadow-md"
+                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    }`}
+                  >
+                    <span>{group.displayName}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      selectedMonth === group.month && selectedYear === group.year
+                        ? "bg-white/20"
+                        : "bg-slate-200"
+                    }`}>
+                      {group.count}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Status Filters */}
           <div className="flex gap-2 overflow-x-auto">
             <button
               onClick={() => setFilter("all")}
@@ -82,7 +182,7 @@ const RentOverviewModal = ({
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
-              All ({rents.length})
+              All ({currentMonthRents.length})
             </button>
             <button
               onClick={() => setFilter(RentStatus.PAID)}
@@ -92,7 +192,7 @@ const RentOverviewModal = ({
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"
               }`}
             >
-              Paid ({rents.filter((r) => r.status === RentStatus.PAID).length})
+              Paid ({currentMonthRents.filter((r) => r.status === RentStatus.PAID).length})
             </button>
             <button
               onClick={() => setFilter(RentStatus.PENDING)}
@@ -103,7 +203,7 @@ const RentOverviewModal = ({
               }`}
             >
               Pending (
-              {rents.filter((r) => r.status === RentStatus.PENDING).length})
+              {currentMonthRents.filter((r) => r.status === RentStatus.PENDING).length})
             </button>
             <button
               onClick={() => setFilter(RentStatus.OVERDUE)}
@@ -114,7 +214,7 @@ const RentOverviewModal = ({
               }`}
             >
               Overdue (
-              {rents.filter((r) => r.status === RentStatus.OVERDUE).length})
+              {currentMonthRents.filter((r) => r.status === RentStatus.OVERDUE).length})
             </button>
           </div>
         </div>
