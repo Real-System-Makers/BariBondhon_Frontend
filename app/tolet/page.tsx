@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { getPublicVacantFlatsAction } from "@/lib/actions/flat.actions";
 import { Flat } from "@/lib/types/flat";
 
@@ -34,12 +36,18 @@ const Tolet = () => {
     <div className="flex flex-col h-full overflow-hidden relative">
       <div className="bg-gradient-to-br from-[#667eea] to-[#764ba2] pt-[50px] px-6 text-white relative flex-shrink-0">
         <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center font-bold text-base">
-              BB
+          <Link href="/" className="flex items-center gap-3 no-underline text-white cursor-pointer">
+            <div className="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center overflow-hidden">
+              <Image 
+                src="/logo.png" 
+                alt="BariBondhon Logo" 
+                width={36} 
+                height={36} 
+                className="object-contain"
+              />
             </div>
             <div className="text-xl font-bold">BariBondhon</div>
-          </div>
+          </Link>
           <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center cursor-pointer text-lg">
             👤
           </div>
@@ -70,22 +78,6 @@ const Tolet = () => {
         <div className="text-base font-semibold text-[#1f2937]">
           {loading ? "Loading..." : `${flats.length} properties found`}
         </div>
-        <button
-          onClick={async () => {
-            setLoading(true);
-            const { syncToLetAction } = await import("@/lib/actions/flat.actions");
-            const res = await syncToLetAction();
-            console.log('Sync Result:', res);
-            const { getPublicVacantFlatsAction } = await import("@/lib/actions/flat.actions");
-            const data = await getPublicVacantFlatsAction();
-            setFlats(data);
-            setLoading(false);
-            alert(`Synced! Found ${res?.stats?.vacant || 0} vacant, ${res?.stats?.upcoming || 0} upcoming in DB: ${res?.db}`);
-          }}
-          className="px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-semibold hover:bg-indigo-600 transition-colors"
-        >
-          ↻ Refresh Data
-        </button>
       </div>
 
       <div className="px-6 flex-1 overflow-y-auto scrollbar-thin pb-5">
