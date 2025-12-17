@@ -35,7 +35,7 @@ const Home = () => {
     <div className="flex flex-col h-full">
       <header className="p-5 px-6 flex justify-between items-center bg-white flex-shrink-0 border-b border-slate-100">
         <div className="text-xl font-extrabold bg-gradient-to-br from-indigo-500 to-purple-600 bg-clip-text text-transparent">
-          BariBondhu
+          BariBondhon
         </div>
         <div className="flex gap-2">
           <Link href="/login">
@@ -54,7 +54,7 @@ const Home = () => {
       <main className="flex-1 overflow-y-auto">
         <div className="bg-gradient-to-br from-indigo-500 to-purple-600 text-white pt-10 px-6 pb-[70px] relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-10 after:bg-slate-100 after:rounded-t-[30px]">
           <div className="text-[28px] font-extrabold mb-2 relative z-[2]">
-            Welcome to BariBondhu
+            Welcome to BariBondhon
           </div>
           <div className="text-base opacity-90 relative z-[2]">
             Your Complete Rental Management Solution!
