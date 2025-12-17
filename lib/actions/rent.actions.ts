@@ -35,12 +35,41 @@ export async function getRentsAction(filters?: {
   }
 }
 
-export async function getTenantRentsAction(): Promise<Rent[]> {
+export async function getTenantRentsAction() {
   try {
-    return await ApiClient.get<Rent[]>("/rents/tenant");
-  } catch (error) {
+    const rents = await ApiClient.get<Rent[]>("/rents/tenant");
+    return rents;
+  } catch (error: any) {
     console.error("Failed to fetch tenant rents:", error);
     return [];
+  }
+}
+
+export async function getPaymentHistoryAction(filters?: {
+  status?: string[];
+  limit?: number;
+  offset?: number;
+}) {
+  try {
+    const params = new URLSearchParams();
+    if (filters?.status && filters.status.length > 0) {
+      params.append("status", filters.status.join(","));
+    }
+    if (filters?.limit) {
+      params.append("limit", filters.limit.toString());
+    }
+    if (filters?.offset) {
+      params.append("offset", filters.offset.toString());
+    }
+    
+    const queryString = params.toString();
+    const url = queryString ? `/rents/tenant/payment-history?${queryString}` : "/rents/tenant/payment-history";
+    
+    const result = await ApiClient.get<{ data: Rent[]; total: number }>(url);
+    return result;
+  } catch (error: any) {
+    console.error("Failed to fetch payment history:", error);
+    return { data: [], total: 0 };
   }
 }
 

@@ -158,8 +158,8 @@ export const TENANT_QUICK_ACTIONS = [
     icon: "📞",
   },
   {
-    path: "/payment",
-    label: "Payment",
+    path: "/payment-history",
+    label: "Payment History",
     icon: "💳",
   },
   {
